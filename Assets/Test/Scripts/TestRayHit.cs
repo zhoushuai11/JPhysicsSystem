@@ -21,7 +21,7 @@ namespace J2P.Test
 			//collisionController.onTriggerEnter += OnTriggerBegin;
 			//collisionController.onTriggerExit += OnTriggerEnd;
 		}
-
+		
 		private void OnDrawGizmos()
 		{
 			if( point1 != null && point2 != null )

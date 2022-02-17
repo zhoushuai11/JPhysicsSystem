@@ -1,24 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using J2P;
+using UnityEngine;
 
-namespace J2P {
+namespace QuadTree {
     public class QuadTreeNode {
-        //Include children's items
         public int totalItemsCount { get; set; }
-
         public bool isLeaf { get; }
-
         public List<IQuadTreeItem> items { get; } = new List<IQuadTreeItem>();
 
         public Rect rect { get; }
-
         public Rect looseRect { get; }
-
         public QuadTreeNode[,] childNodes { get; }
 
         public QuadTreeNode(Rect rect, int depth, int maxDepth) {
-            Debug.LogError(depth);
             this.rect = rect;
             var looseRectSize = 2 * rect.size;
             var looseRectPos = this.rect.center - this.rect.size;
@@ -28,9 +22,6 @@ namespace J2P {
                 isLeaf = true;
             } else {
                 isLeaf = false;
-            }
-
-            if (isLeaf == false) {
                 childNodes = new QuadTreeNode[2, 2];
                 var childSize = rect.size / 2;
                 for (int i = 0; i < 2; i++) {
