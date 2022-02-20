@@ -64,6 +64,12 @@ namespace J2P
 			return -1;
 		}
 
+		/// <summary>
+		/// 获取当前节点在四叉树中的位置、深度。 左下为 (0,0) 右上为(1,1)
+		/// </summary>
+		/// <param name="size"></param>
+		/// <param name="center"></param>
+		/// <param name="posInfo"></param>
 		public void GetPosInfo( Vector2 size, Vector2 center, ref PositionInQuadTree posInfo )
 		{
 			posInfo.Reset();
@@ -105,6 +111,10 @@ namespace J2P
 			}
 		}
 
+		/// <summary>
+		/// 更新物体在四叉树中的位置信息
+		/// </summary>
+		/// <param name="item"></param>
 		public void UpdateItem( IQuadTreeItem item )
 		{
 			var newPosInfo = item.currentPosInQuadTree;
@@ -122,6 +132,7 @@ namespace J2P
 					currentParent.totalItemsCount -= 1;
 					if( i == item.lastPosInQuadTree.storeDepth - 1 )
 					{
+						// 移除当前所在节点信息
 						currentParent.childNodes[currentDepthPosInfo.rowIndex, currentDepthPosInfo.columnIndex].RemoveItem( item );
 					}
 					else
@@ -163,7 +174,7 @@ namespace J2P
 		}
 
 		/// <summary>
-		/// Get items that might intersect with the rayRect
+		/// 使用队列实现广度优先遍历查询四叉树节点是否碰撞到了
 		/// </summary>
 		public List<IQuadTreeItem> GetItems( Rect rayRect )
 		{
@@ -173,6 +184,7 @@ namespace J2P
 			while( _traverseNodeQueue.Count > 0 )
 			{
 				var currentChild = _traverseNodeQueue.Dequeue();
+				// 查询当前节点是否有符合标准的子内容
 				foreach( IQuadTreeItem item in currentChild.items )
 				{
 					if( item.rect.Intersects( rayRect ) )
@@ -181,6 +193,7 @@ namespace J2P
 					}
 				}
 
+				// 如果不是叶子节点就检查子节点是否符合条件，符合就入队列
 				if( currentChild.isLeaf == false )
 				{
 					foreach( var node in currentChild.childNodes )

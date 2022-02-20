@@ -40,6 +40,7 @@ namespace J2P
 			var destPoint = origin + ray;
 
 			var rayRect = CreateRect( origin, destPoint );
+			// 获取四叉树中与词条涉嫌有关系的节点
 			var itemList = quadTree.GetItems( rayRect );
 			foreach( IQuadTreeItem item in itemList )
 			{
@@ -190,6 +191,16 @@ namespace J2P
 			{
 				AddRayHitToList( collider, hitPoint, hitDistance, ref hitList, ref hitCount );
 			}
+		}
+
+		/// <summary>
+		/// 使用 SAT 算法计算两个 AABB 是否相交
+		/// </summary>
+		/// <param name="rect1"></param>
+		/// <param name="rect2"></param>
+		/// <returns></returns>
+		public static bool CaluCalculateColliderBySAT(Rect rect1, Rect rect2) {
+			return false;
 		}
 
 		private static void AddRayHitToList( Collider2D collider, Vector2 hitPoint, float distance, ref JRaycastHitList hitList, ref int hitCount )
