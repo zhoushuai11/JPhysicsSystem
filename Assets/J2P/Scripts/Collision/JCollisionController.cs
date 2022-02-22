@@ -154,7 +154,7 @@ namespace J2P
 		{
 		}
 
-		protected void UpdateRect()
+		public void UpdateRect()
 		{
 			_rect.center = _transform.position;
 		}

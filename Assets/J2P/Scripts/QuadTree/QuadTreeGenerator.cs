@@ -15,6 +15,9 @@ namespace J2P {
 
 
 		private SAT sat = new SAT();
+
+		private JCollisionController objAQuadNode;
+		private JCollisionController objBQuadNode;
 		// Use this for initialization
 		void Awake()
 		{
@@ -22,15 +25,22 @@ namespace J2P {
 			var worldRect = new Rect( rectPos, new Vector2( width, height ) );
 			JPhysicsManager.instance.CreateQuadTree( worldRect, maxDepth );
 			JPhysicsManager.useUnityRayCast = false;
-			InitSat();
 		}
-		
-		private void InitSat() {
-			// SAT.CalcCollision()
-		}
-
 		private void Update() {
-			
+			if (objA != null && objB != null) {
+				if (null == objAQuadNode) {
+					objAQuadNode = objA.GetComponent<JCollisionController>();
+				}
+				if (null == objBQuadNode) {
+					objBQuadNode = objB.GetComponent<JCollisionController>();
+				}
+
+				objAQuadNode.UpdateRect();
+				objBQuadNode.UpdateRect();
+
+				// Debug.Log(objAQuadNode.rect.xMin + "  " + objBQuadNode.rect.xMin);
+				Debug.Log(SAT.CalcCollision(objAQuadNode.rect, objBQuadNode.rect));
+			}
 		}
 
 #if UNITY_EDITOR

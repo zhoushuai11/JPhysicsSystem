@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class SAT {
@@ -35,7 +36,8 @@ public class SAT {
                 return false;
             }
         }
-
+        var dor = edge.end - edge.start;
+        Debug.DrawLine(edge.start - dor * 2, edge.end + dor * 2, Color.white);
         return true;
     }
 
