@@ -1,16 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
-namespace J2P
-{
-	public class QuadTreeGenerator : MonoBehaviour
-	{
+namespace J2P {
+	public class QuadTreeGenerator : MonoBehaviour {
 		public float width;
 
 		public float height;
 
 		public int maxDepth;
 
+		public JRigidbody objA;
+		public JRigidbody objB;
+
+
+		private SAT sat = new SAT();
 		// Use this for initialization
 		void Awake()
 		{
@@ -18,11 +22,21 @@ namespace J2P
 			var worldRect = new Rect( rectPos, new Vector2( width, height ) );
 			JPhysicsManager.instance.CreateQuadTree( worldRect, maxDepth );
 			JPhysicsManager.useUnityRayCast = false;
+			InitSat();
+		}
+		
+		private void InitSat() {
+			// SAT.CalcCollision()
+		}
+
+		private void Update() {
+			
 		}
 
 #if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
+			return;
 			if( width == 0f || height == 0f || maxDepth == 0 )
 			{
 				return;

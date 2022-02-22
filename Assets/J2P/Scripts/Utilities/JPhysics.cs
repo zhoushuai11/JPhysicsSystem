@@ -40,7 +40,7 @@ namespace J2P
 			var destPoint = origin + ray;
 
 			var rayRect = CreateRect( origin, destPoint );
-			// 获取四叉树中与词条涉嫌有关系的节点
+			// 获取四叉树中与此射线有关系的节点
 			var itemList = quadTree.GetItems( rayRect );
 			foreach( IQuadTreeItem item in itemList )
 			{

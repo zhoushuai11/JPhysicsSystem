@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using System.Text;
 using UnityEditor;
+using UnityEngine.UI;
 
 namespace J2P.Test
 {
@@ -12,6 +15,11 @@ namespace J2P.Test
 
 		public int maxDepth;
 
+		public bool IsShowGizmos = true;
+
+		public JRigidbody jRigidbody;
+		public Text ShowText;
+
 		// Use this for initialization
 		void Start()
 		{
@@ -22,9 +30,26 @@ namespace J2P.Test
 			JPhysicsManager.useUnityRayCast = false;
 		}
 
+		private void Update() {
+			if (null != jRigidbody && null != ShowText) {
+				var str = new StringBuilder();
+				var len = jRigidbody.currentPosInQuadTree.posInDepths.Length;
+				for (int i = 0; i < len; i++) {
+					var pos = jRigidbody.currentPosInQuadTree.posInDepths[i];
+					str.Append($"第{i}层:坐标({pos.rowIndex},{pos.columnIndex})");
+					str.Append("\n");
+				}
+
+				ShowText.text = str.ToString();
+			}
+		}
+
 #if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
+			if (!IsShowGizmos) {
+				return;
+			}
 			if( width == 0f || height == 0f || maxDepth == 0 )
 			{
 				return;
