@@ -212,5 +212,15 @@ namespace J2P
 				_traverseNodeQueue.Enqueue( node );
 			}
 		}
+
+		/// <summary>
+		/// 根据给出深度、位置获取周围可能碰撞的节点
+		/// </summary>
+		/// <param name="rayRect"></param>
+		/// <returns></returns>
+		public List<IQuadTreeItem> GetDepthItems(Rect rayRect) {
+			var list = new List<IQuadTreeItem>();
+			return list;
+		}
 	}
 }

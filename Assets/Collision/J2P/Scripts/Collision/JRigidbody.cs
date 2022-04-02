@@ -169,11 +169,11 @@ namespace J2P
 				_movement.y = 0.0f;
 			}
 
-			// Horizontal
-			this.HorizontalCollisionDetect();
-
-			// Vertical
-			this.VerticalCollisionDetect();
+			// // Horizontal
+			// this.HorizontalCollisionDetect();
+			//
+			// // Vertical
+			// this.VerticalCollisionDetect();
 			Profiler.EndSample();
 		}
 
@@ -230,6 +230,18 @@ namespace J2P
 			this.UpdateRaycastOrigins();
 		}
 
+		private void CheckCollision() {
+			JPhysics.CalcQuadTreeTouch(JPhysicsManager.instance.quadTree, rect, ref _jraycastHitList);
+			for (int j = 0; j < _jraycastHitList.count; j++) {
+				var hit = _jraycastHitList[j];
+				if( _ignoredColliders.Contains( hit.collider ) )
+				{
+					continue;
+				}
+				// HandleHorizontalHitResult( hit.collider, hit.point, hit.distance, directionX );
+			}
+		}
+
 		private void HorizontalCollisionDetect()
 		{
 			int detectionCount = 1;
@@ -253,14 +265,14 @@ namespace J2P
 				{
 					rayLength += _expandWidth;
 				}
-
+			
 				for( int i = 0; i < this.horizontalRayCount; i++ )
 				{
 					_raycastDirection.x = 1.0f;
 					_raycastDirection.y = 0.0f;
 					_raycastDirection.x *= directionX;
 					_raycastDirection.y *= directionX;
-
+			
 					if( JPhysicsManager.useUnityRayCast )
 					{
 						var hitCount = Physics2D.RaycastNonAlloc( rayOrigin, _raycastDirection, _raycastHit2D, rayLength, this.collisionMask );
@@ -274,12 +286,10 @@ namespace J2P
 							HandleHorizontalHitResult( hit.collider, hit.point, hit.distance, directionX );
 						}
 					}
-					else
-					{
+					else {
 						_jraycastHitList.Clear();
 						JPhysics.Raycast( JPhysicsManager.instance.quadTree, rayOrigin, _raycastDirection, ref _jraycastHitList, rayLength, this.collisionMask );
-						for( int j = 0; j < _jraycastHitList.count; j++ )
-						{
+						for (int j = 0; j < _jraycastHitList.count; j++) {
 							var hit = _jraycastHitList[j];
 							if( _ignoredColliders.Contains( hit.collider ) )
 							{

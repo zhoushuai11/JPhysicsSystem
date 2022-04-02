@@ -571,6 +571,7 @@ MonoBehaviour:
   maxDepth: 2
   objA: {fileID: 595257281}
   objB: {fileID: 1816804425}
+  isOpenDebug: 0
 --- !u!4 &437751205
 Transform:
   m_ObjectHideFlags: 0
@@ -630,7 +631,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -663,7 +664,7 @@ MonoBehaviour:
   verticalRayCount: 3
   showDebugGizoms: 0
   gravityScale: 0
-  collisionDetectionMode: 0
+  collisionDetectionMode: 1
 --- !u!212 &595257282
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1789,7 +1790,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1822,7 +1823,7 @@ MonoBehaviour:
   verticalRayCount: 3
   showDebugGizoms: 0
   gravityScale: 0
-  collisionDetectionMode: 0
+  collisionDetectionMode: 1
 --- !u!212 &1816804426
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -193,6 +193,33 @@ namespace J2P
 			}
 		}
 
+		public static void CalcQuadTreeTouch(QuadTree quadTree, Rect nowRect, ref JRaycastHitList hitList) {
+			var hitCount = 0;
+			// 获取四叉树中与此射线有关系的节点
+			var itemList = quadTree.GetItems(nowRect);
+			Debug.Log(itemList.Count);
+			foreach (IQuadTreeItem item in itemList) {
+				var collider = item.selfCollider;
+
+				if (!collider.gameObject.activeInHierarchy) {
+					continue;
+				}
+
+				if (!collider.enabled) {
+					continue;
+				}
+
+				if (RaycastHitExist(collider, hitList)) {
+					return;
+				}
+
+				var isTouch = CaluCalculateColliderBySAT(nowRect, item.rect);
+				if (isTouch) {
+					AddRayHitToList(collider, Vector2.zero, 1, ref hitList, ref hitCount);
+				}
+			}
+		}
+
 		/// <summary>
 		/// 使用 SAT 算法计算两个 AABB 是否相交
 		/// </summary>
@@ -200,7 +227,7 @@ namespace J2P
 		/// <param name="rect2"></param>
 		/// <returns></returns>
 		public static bool CaluCalculateColliderBySAT(Rect rect1, Rect rect2) {
-			return false;
+			return SAT.CalcCollision(rect1, rect2);
 		}
 
 		private static void AddRayHitToList( Collider2D collider, Vector2 hitPoint, float distance, ref JRaycastHitList hitList, ref int hitCount )

@@ -13,6 +13,8 @@ namespace J2P {
 		public JRigidbody objA;
 		public JRigidbody objB;
 
+		public bool isOpenDebug = false;
+
 
 		private SAT sat = new SAT();
 
@@ -27,6 +29,9 @@ namespace J2P {
 			JPhysicsManager.useUnityRayCast = false;
 		}
 		private void Update() {
+			if (!isOpenDebug) {
+				return;
+			}
 			if (objA != null && objB != null) {
 				if (null == objAQuadNode) {
 					objAQuadNode = objA.GetComponent<JCollisionController>();
@@ -46,7 +51,6 @@ namespace J2P {
 #if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
-			return;
 			if( width == 0f || height == 0f || maxDepth == 0 )
 			{
 				return;
