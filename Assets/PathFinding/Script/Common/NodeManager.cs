@@ -35,11 +35,18 @@ public class NodeManager {
     private void CreateNode() {
         maxX = gameMeshData.xNum;
         maxY = gameMeshData.yNum;
+        
+        // 设置默认 start and end
+        var startIndexX = Random.Range(0, maxX);
+        var startIndexY = Random.Range(0, maxY);
+        var endIndexX = (startIndexX < maxX / 2)? Random.Range(startIndexX + 1, maxX) : Random.Range(0, startIndexX);
+        var endIndexY = (startIndexY < maxY / 2)? Random.Range(startIndexY + 1, maxY) : Random.Range(0, startIndexY);
+        
         var scale = gameMeshData.objScale;
         var prefab = gameMeshData.defaultObj;
         prefab.transform.localScale = Vector3.one * scale;
-        for (int i = 0; i < maxX; i++) {
-            for (int j = 0; j < maxY; j++) {
+        for (int i = 0; i < maxY; i++) {
+            for (int j = 0; j < maxX; j++) {
                 var pos = GetPosByScaleAndIndex(scale, i, j);
                 var obj = GameObject.Instantiate(prefab, objRoot);
                 obj.transform.localPosition = pos;
@@ -47,6 +54,11 @@ public class NodeManager {
                 var nodeComponent = obj.AddComponent<Node>();
                 nodeComponent.Init(i, j, NodeType.Default);
                 nodeDic.Add(nodeComponent, obj);
+                if (i == startIndexX && j == startIndexY) {
+                    ChangeNodeType(nodeComponent, NodeType.Start);
+                } else if (i == endIndexX && j == endIndexY) {
+                    ChangeNodeType(nodeComponent, NodeType.End);
+                }
             }
         }
     }
@@ -144,12 +156,15 @@ public class NodeManager {
         }
 
         isFinding = true;
+        var bfs = new BFS();
+        bfs.Init(nodeDic, maxX, maxY);
     }
 
     public void ResetFind() {
         foreach (var node in nodeDic.Keys) {
             ChangeNodeType(node, NodeType.Default);
         }
+        isFinding = false;
     }
 
     public void ChangeUIPencilNode(int nt) {
