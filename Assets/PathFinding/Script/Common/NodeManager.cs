@@ -52,7 +52,7 @@ public class NodeManager {
                 obj.transform.localPosition = pos;
                 obj.name = $"{i},{j}";
                 var nodeComponent = obj.AddComponent<Node>();
-                nodeComponent.Init(i, j, NodeType.Default);
+                nodeComponent.Init(i, j, NodeType.Default, setMats);
                 nodeDic.Add(nodeComponent, obj);
                 if (i == startIndexX && j == startIndexY) {
                     ChangeNodeType(nodeComponent, NodeType.Start);
@@ -146,7 +146,7 @@ public class NodeManager {
             endNode = null;
         }
         
-        node.ChangeNodeType(type, setMats[(int)type]);
+        node.ChangeNodeType(type);
     }
 
     private bool isFinding = false;
@@ -178,21 +178,33 @@ public class Node : MonoBehaviour {
     public NodeType nodeType;
 
     private SpriteRenderer render;
+    private TextMesh textMesh;
+    private Material[] mats;
 
-    public void Init(int setX, int setY, NodeType setNodeType) {
+    public void Init(int setX, int setY, NodeType setNodeType,Material[] mats) {
         x = setX;
         y = setY;
         nodeType = setNodeType;
         render = transform.GetComponent<SpriteRenderer>();
+        textMesh = transform.GetComponentInChildren<TextMesh>();
+        this.mats = mats;
+        SetText("");
     }
 
-    public void ChangeNodeType(NodeType nt, Material mat) {
+    public void ChangeNodeType(NodeType nt) {
         if (nodeType == nt) {
             return;
         }
 
         nodeType = nt;
-        render.material = mat;
+        render.material = mats[(int)nt];
+        if (nt != NodeType.FinalWay) {
+            SetText("");
+        }
+    }
+
+    public void SetText(string t) {
+        textMesh.text = t;
     }
 }
 
