@@ -176,6 +176,8 @@ public class Node : MonoBehaviour {
     public int x;
     public int y;
     public NodeType nodeType;
+    public int ParentNodeIndex { get; set; } = -1;
+    public int ChildNodeIndex { get; set; } = -1;
 
     private SpriteRenderer render;
     private TextMesh textMesh;
@@ -200,6 +202,11 @@ public class Node : MonoBehaviour {
         render.material = mats[(int)nt];
         if (nt != NodeType.FinalWay) {
             SetText("");
+        }
+
+        if (nt == NodeType.Default) {
+            ParentNodeIndex = -1;
+            ChildNodeIndex = -1;
         }
     }
 

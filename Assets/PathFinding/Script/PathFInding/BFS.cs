@@ -7,14 +7,41 @@ public class BFS : PathFindingBase {
     private List<Node> wayList = new List<Node>();
     public override void Find() {
         Debug.LogError("StartBFSFind");
-        DFSTravel(startIndex);
-        DelayShowWayPoint();
+        // DFSTravel(startIndex);
         
         BFSSearch();
+        // DelayShowWayPoint();
+        // DelayShowWayChild();
+        DelayShowWayParent();
     }
 
     private void BFSSearch() {
-        
+        travelList.Clear();
+        wayList.Clear();
+        var queue = new Queue<int>();
+        queue.Enqueue(startIndex);
+        var lastIndex = startIndex;
+        while (queue.Count > 0) {
+            var value = queue.Dequeue();
+            if (travelList.Contains(value)) {
+                continue;
+            }
+            travelList.Add(value);
+            var node = nodeIndexDic[value];
+            var list = listTableDic[value];
+            wayList.Add(node);
+            if (node.nodeType == NodeType.End) {
+                // 结束
+                return;
+            }
+            for (int i = 0; i < list.Count; i++) {
+                var nextValue = list[i];
+                if (!travelList.Contains(nextValue)) {
+                    queue.Enqueue(nextValue);
+                    nodeIndexDic[nextValue].ParentNodeIndex = value;
+                }
+            }
+        }
     }
 
     private bool isDFSOver = false;
@@ -48,6 +75,8 @@ public class BFS : PathFindingBase {
                 for (int j = 0; j < offset; j++) {
                     wayList.RemoveAt(nowCount--);
                 }
+            } else {
+                node.ChildNodeIndex = nowIndex;
             }
         }
     }
@@ -56,6 +85,28 @@ public class BFS : PathFindingBase {
         for (int i = 0; i < wayList.Count; i++) {
             wayList[i].ChangeNodeType(NodeType.FinalWay);
             wayList[i].SetText(i.ToString());
+        }
+    }
+
+    private void DelayShowWayChild() {
+        var childIndex = startIndex;
+        var m = 0;
+        while (childIndex != -1) {
+            var childNode = nodeIndexDic[childIndex];
+            childNode.ChangeNodeType(NodeType.FinalWay);
+            childNode.SetText(m++.ToString());
+            childIndex = childNode.ChildNodeIndex;
+        }
+    }
+    
+    private void DelayShowWayParent() {
+        var parentIndex = endIndex;
+        var m = 0;
+        while (parentIndex != -1) {
+            var parentNode = nodeIndexDic[parentIndex];
+            parentNode.ChangeNodeType(NodeType.FinalWay);
+            parentNode.SetText(m++.ToString());
+            parentIndex = parentNode.ParentNodeIndex;
         }
     }
 }
