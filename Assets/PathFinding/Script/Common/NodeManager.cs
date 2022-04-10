@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NodeManager {
     public NodeType UIPencilType { get; private set; }
@@ -177,7 +179,6 @@ public class Node : MonoBehaviour {
     public int y;
     public NodeType nodeType;
     public int ParentNodeIndex { get; set; } = -1;
-    public int ChildNodeIndex { get; set; } = -1;
 
     private SpriteRenderer render;
     private TextMesh textMesh;
@@ -206,12 +207,27 @@ public class Node : MonoBehaviour {
 
         if (nt == NodeType.Default) {
             ParentNodeIndex = -1;
-            ChildNodeIndex = -1;
         }
     }
 
     public void SetText(string t) {
         textMesh.text = t;
+    }
+
+    private bool isStartDelayShowPoint = false;
+    private float delayShowPointTime = 0.0f;
+    private bool isStartDelayShowFinalWay = false;
+    private float delayShowFinal = 0.0f;
+    public void DelayShowWay(int index) {
+        isStartDelayShowPoint = true;
+    }
+
+    public void DelayShowFinalWay(int index) {
+        
+    }
+
+    private void Update() {
+        
     }
 }
 

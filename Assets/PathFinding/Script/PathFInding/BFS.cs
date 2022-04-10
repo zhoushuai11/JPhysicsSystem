@@ -10,8 +10,7 @@ public class BFS : PathFindingBase {
         // DFSTravel(startIndex);
         
         BFSSearch();
-        // DelayShowWayPoint();
-        // DelayShowWayChild();
+        DelayShowWayPoint();
         DelayShowWayParent();
     }
 
@@ -75,8 +74,6 @@ public class BFS : PathFindingBase {
                 for (int j = 0; j < offset; j++) {
                     wayList.RemoveAt(nowCount--);
                 }
-            } else {
-                node.ChildNodeIndex = nowIndex;
             }
         }
     }
@@ -88,17 +85,6 @@ public class BFS : PathFindingBase {
         }
     }
 
-    private void DelayShowWayChild() {
-        var childIndex = startIndex;
-        var m = 0;
-        while (childIndex != -1) {
-            var childNode = nodeIndexDic[childIndex];
-            childNode.ChangeNodeType(NodeType.FinalWay);
-            childNode.SetText(m++.ToString());
-            childIndex = childNode.ChildNodeIndex;
-        }
-    }
-    
     private void DelayShowWayParent() {
         var parentIndex = endIndex;
         var m = 0;
