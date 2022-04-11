@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour {
     public Button startBtn;
     public Button resetBtn;
     public Dropdown touchTypeDropDown;
+    public Dropdown pathFindingTypeDropDown;
 
     private void Awake() {
         startBtn.onClick.AddListener(() => {
@@ -20,6 +21,9 @@ public class UIManager : MonoBehaviour {
         });
         touchTypeDropDown.onValueChanged.AddListener(value => {
             GameManager.nodeManager.ChangeUIPencilNode(value);
+        });
+        pathFindingTypeDropDown.onValueChanged.AddListener(value => {
+            GameManager.nodeManager.ChangePathFindingType(value);
         });
     }
 }

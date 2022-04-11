@@ -5,7 +5,8 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class NodeManager {
-    public NodeType UIPencilType { get; private set; }
+    private NodeType UIPencilType { get; set; }
+    private FindingPathType UIFindingPathType { get; set; }
     
     private SOGameMeshData gameMeshData;
     
@@ -158,8 +159,19 @@ public class NodeManager {
         }
 
         isFinding = true;
-        var bfs = new BFS();
-        bfs.Init(nodeDic, maxX, maxY);
+        PathFindingBase pathFinding = null;
+        switch (UIFindingPathType) {
+            case FindingPathType.BFS:
+                pathFinding = new BFS();
+                break;
+            case FindingPathType.DIJKSTRA:
+                break;
+            case FindingPathType.ASTAR:
+                break;
+            case FindingPathType.JPS:
+                break;
+        }
+        pathFinding?.Init(nodeDic, maxX, maxY);
     }
 
     public void ResetFind() {
@@ -172,6 +184,10 @@ public class NodeManager {
     public void ChangeUIPencilNode(int nt) {
         UIPencilType = (NodeType)nt;
     }
+
+    public void ChangePathFindingType(int nt) {
+        UIFindingPathType = (FindingPathType)nt;
+    }
 }
 
 public class Node : MonoBehaviour {
@@ -183,8 +199,9 @@ public class Node : MonoBehaviour {
     private SpriteRenderer render;
     private TextMesh textMesh;
     private Material[] mats;
+    private const float TIMEOFFSET = 0.1f;
 
-    public void Init(int setX, int setY, NodeType setNodeType,Material[] mats) {
+    public void Init(int setX, int setY, NodeType setNodeType, Material[] mats) {
         x = setX;
         y = setY;
         nodeType = setNodeType;
@@ -217,17 +234,55 @@ public class Node : MonoBehaviour {
     private bool isStartDelayShowPoint = false;
     private float delayShowPointTime = 0.0f;
     private bool isStartDelayShowFinalWay = false;
+    private int finalPointIndex = 0;
     private float delayShowFinal = 0.0f;
-    public void DelayShowWay(int index) {
+    private float allWayCountTime = 0.0f;
+    /// <summary>
+    /// 演示搜索路径
+    /// </summary>
+    /// <param name="index">第几步</param>
+    public void DelayShowCheckWay(int index) {
+        delayShowPointTime = TIMEOFFSET * index;
         isStartDelayShowPoint = true;
     }
 
-    public void DelayShowFinalWay(int index) {
-        
+    /// <summary>
+    /// 演示最终路径
+    /// </summary>
+    /// <param name="index">第几步</param>
+    /// <param name="allWayPointCount">一共几部</param>
+    public void DelayShowFinalWay(int index, int allWayPointCount) {
+        allWayCountTime = allWayPointCount * TIMEOFFSET;
+        finalPointIndex = index;
+        delayShowFinal = index * TIMEOFFSET;
+        isStartDelayShowFinalWay = true;
     }
 
     private void Update() {
-        
+        if (!isStartDelayShowPoint && !isStartDelayShowFinalWay) {
+            return;
+        }
+
+        if (isStartDelayShowPoint) {
+            delayShowPointTime -= Time.deltaTime;
+            if (delayShowPointTime <= 0) {
+                ChangeNodeType(NodeType.Checked);
+                isStartDelayShowPoint = false;
+            }
+        }
+
+        if (isStartDelayShowFinalWay) {
+            if (allWayCountTime > 0) {
+                allWayCountTime -= Time.deltaTime;
+            } else {
+                delayShowFinal -= Time.deltaTime;
+                if (delayShowFinal < 0) {
+                    isStartDelayShowFinalWay = false;
+                    ChangeNodeType(NodeType.FinalWay);
+                    SetText(finalPointIndex.ToString());
+                }
+            }
+        }
     }
 }
 
