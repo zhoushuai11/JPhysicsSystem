@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baaa4f8e8eac470895dfe4a737176d32, type: 3}
   m_Name: SOGameMeshData
   m_EditorClassIdentifier: 
-  xNum: 8
-  yNum: 8
+  xNum: 4
+  yNum: 4
   defaultObj: {fileID: 2744006251303187439, guid: 69309b95044ac7148a69312b5064db16,
     type: 3}
   objScale: 0.5
@@ -24,3 +24,4 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ddc5b1aa3c8d81644a8666095542a1d2, type: 2}
   - {fileID: 2100000, guid: 33fdc78965699224daa9120384b17d0f, type: 2}
   - {fileID: 2100000, guid: 34b2296f2edea8c4d807ad9d5742ef71, type: 2}
+  txtObj: {fileID: 3726043290906018163, guid: 0706c71e8436bd54b85b531354d3f4e6, type: 3}

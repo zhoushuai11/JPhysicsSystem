@@ -1,9 +1,8 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
 public interface IPathFinding {
-    public void Init(Dictionary<Node, GameObject> nodeDic, int xMax, int yMax);
+    public void Init(Dictionary<int, Node> nodeDic, int xMax, int yMax);
     public void Find();
 }
 
@@ -30,12 +29,11 @@ public class PathFindingBase : IPathFinding {
     protected bool isFindingOver = false;
     protected List<int> travelList = new List<int>();
 
-    public void Init(Dictionary<Node, GameObject> nodeDic, int xMax, int yMax) {
+    public void Init(Dictionary<int, Node> nodeDic, int xMax, int yMax) {
         this.xMax = xMax;
         this.yMax = yMax;
-        foreach (var key in nodeDic.Keys) {
-            nodeIndexDic.Add(GetIndexByXAndY(key), key);
-        }
+        nodeIndexDic = nodeDic;
+
         CreatePathTable();
         Find();
     }
@@ -48,60 +46,32 @@ public class PathFindingBase : IPathFinding {
 
         // 初始化字典
         foreach (var node in nodeIndexDic.Values) {
-            listTableDic.Add(GetIndexByXAndY(node), GetAroundTableNode(node.x, node.y));
+            listTableDic.Add(NodeUtil.GetIndexByXAndY(node), GetAroundTableNode(node));
             if (node.nodeType == NodeType.Start) {
                 startNode = node;
-                startIndex = GetIndexByXAndY(startNode);
-            }else if (node.nodeType == NodeType.End) {
+                startIndex = NodeUtil.GetIndexByXAndY(startNode);
+            } else if (node.nodeType == NodeType.End) {
                 endNode = node;
-                endIndex = GetIndexByXAndY(endNode);
+                endIndex = NodeUtil.GetIndexByXAndY(endNode);
             }
         }
     }
 
     // 获取当前节点周围的可走结点
-    private List<int> GetAroundTableNode(int x, int y) {
-        var index = GetIndexByXAndY(x, y);
-        var setXMin = 0;
-        var setXMax = yMax * xMax - 1;
-        var upIndex = index - xMax;
-        var downIndex = index + xMax;
-        var rightIndex = index + 1;
-        var leftIndex = index - 1;
-
-        var list = new List<int>(4);
-        if (upIndex >= 0 && CanGoNode(upIndex)) {
-            list.Add(upIndex);
+    private List<int> GetAroundTableNode(Node node) {
+        var aroundList = node.NodeValue.AroundList.ToArray();
+        var list = new List<int>(aroundList.Length);
+        foreach (var around in aroundList) {
+            var nextNode = nodeIndexDic[around];
+            if (NodeUtil.CanGoNode(nextNode)) {
+                list.Add(around);
+            }
         }
 
-        if (downIndex <= setXMax && CanGoNode(downIndex)) {
-            list.Add(downIndex);
-        }
-
-        if (y % yMax != 0 && CanGoNode(leftIndex)) {
-            list.Add(leftIndex);
-        }
-
-        if ((y + 1) % yMax != 0 && CanGoNode(rightIndex)) {
-            list.Add(rightIndex);
-        }
         return list;
     }
 
-    private int GetIndexByXAndY(Node node) {
-        return GetIndexByXAndY(node.x, node.y);
-    }
-    
-    private int GetIndexByXAndY(int x, int y) {
-        return x * xMax + y;
-    }
-
-    private bool CanGoNode(int index) {
-        return nodeIndexDic.ContainsKey(index) && (nodeIndexDic[index].nodeType != NodeType.Wall);
-    }
-
     public virtual void Find() {
-        
     }
 
     protected void DelayShowWayParent() {

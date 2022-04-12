@@ -12,8 +12,8 @@ public class NodeManager {
     
     private int nodeLayer;
     private Material[] setMats; // 0:DefaultNode 1:StartNode 2:EndNode 3:WallNode
-    private int maxX;
-    private int maxY;
+    private int xMax;
+    private int yMax;
     private Transform objRoot;
 
     private Node lastTouchNode;
@@ -21,8 +21,11 @@ public class NodeManager {
 
     private Node startNode;
     private Node endNode;
-    
-    private Dictionary<Node, GameObject> nodeDic = new Dictionary<Node, GameObject>();
+
+    private Dictionary<int, Node> nodeDic = new Dictionary<int, Node>();
+
+    private Dictionary<NodePos, GameObject> txtDic = new Dictionary<NodePos, GameObject>();
+    private Dictionary<NodePos, int> nodeValueDic = new Dictionary<NodePos, int>();
 
     private bool isBtnDown = false;
     
@@ -36,27 +39,28 @@ public class NodeManager {
     }
 
     private void CreateNode() {
-        maxX = gameMeshData.xNum;
-        maxY = gameMeshData.yNum;
+        xMax = gameMeshData.xNum;
+        yMax = gameMeshData.yNum;
+        var scale = gameMeshData.objScale;
+        NodeUtil.Init(xMax, yMax, scale);
         
         // 设置默认 start and end
-        var startIndexX = Random.Range(0, maxX);
-        var startIndexY = Random.Range(0, maxY);
-        var endIndexX = (startIndexX < maxX / 2)? Random.Range(startIndexX + 1, maxX) : Random.Range(0, startIndexX);
-        var endIndexY = (startIndexY < maxY / 2)? Random.Range(startIndexY + 1, maxY) : Random.Range(0, startIndexY);
+        var startIndexX = Random.Range(0, xMax);
+        var startIndexY = Random.Range(0, yMax);
+        var endIndexX = (startIndexX < xMax / 2)? Random.Range(startIndexX + 1, xMax) : Random.Range(0, startIndexX);
+        var endIndexY = (startIndexY < yMax / 2)? Random.Range(startIndexY + 1, yMax) : Random.Range(0, startIndexY);
         
-        var scale = gameMeshData.objScale;
         var prefab = gameMeshData.defaultObj;
         prefab.transform.localScale = Vector3.one * scale;
-        for (int i = 0; i < maxY; i++) {
-            for (int j = 0; j < maxX; j++) {
-                var pos = GetPosByScaleAndIndex(scale, i, j);
+        for (int i = 0; i < yMax; i++) {
+            for (int j = 0; j < xMax; j++) {
+                var pos = NodeUtil.GetPosByXAndY(i, j);
                 var obj = GameObject.Instantiate(prefab, objRoot);
                 obj.transform.localPosition = pos;
                 obj.name = $"{i},{j}";
                 var nodeComponent = obj.AddComponent<Node>();
                 nodeComponent.Init(i, j, NodeType.Default, setMats);
-                nodeDic.Add(nodeComponent, obj);
+                nodeDic.Add(NodeUtil.GetIndexByXAndY(i, j), nodeComponent);
                 if (i == startIndexX && j == startIndexY) {
                     ChangeNodeType(nodeComponent, NodeType.Start);
                 } else if (i == endIndexX && j == endIndexY) {
@@ -64,14 +68,51 @@ public class NodeManager {
                 }
             }
         }
+
+        UpdateAroundValue();
+        UpdateNodeValue();
     }
 
-    private Vector2 GetPosByScaleAndIndex(float scale, int x, int y) {
-        var xcenter = maxX / 2;
-        var ycenter = maxY / 2;
-        var xPos = (x - xcenter) * scale * 1.03f;
-        var yPos = (y - ycenter) * scale * 1.03f;
-        return new Vector2(xPos, yPos);
+    // 更新各个节点之间的可到达节点
+    private void UpdateAroundValue() {
+        foreach (var node in nodeDic.Values) {
+            node.NodeValue.AddAroundNode(NodeUtil.GetAroundTableNode(node.x, node.y));
+        }
+    }
+    
+    // 更新两节点之间的权值
+    private void UpdateNodeValue() {
+        var range = gameMeshData.valueRange;
+        var rangeX = (int)range.x;
+        var rangeY = (int)range.y;
+        
+        var random = 0;
+        for (int i = 0; i < yMax; i++) {
+            for (int j = 0; j < xMax; j++) {
+                var index = NodeUtil.GetIndexByXAndY(i, j);
+                var node = nodeDic[index];
+                var aroundList = node.NodeValue.AroundList;
+                if(null != aroundList && aroundList.Count > 0){
+                    foreach (var nextIndex in aroundList) {
+                        var v2 = new NodePos(index, nextIndex);
+                        var otherWayValue = new NodePos(nextIndex, index);
+                        if (nodeValueDic.ContainsKey(otherWayValue)) {
+                            random = nodeValueDic[otherWayValue];
+                        } else {
+                            random = Random.Range(rangeX, rangeY);
+                        }
+                        nodeValueDic.Add(v2, random);
+                    }
+                }
+            }
+        }
+        
+        // // 更新两两之间的显示
+        // var parent = gameMeshData.txtObj;
+        // var obj = GameObject.Instantiate(parent, objRoot);
+        // foreach (var nodeValue in nodeValueDic) {
+        //     var pos1 = NodeUtil.GetPosByIndex(nodeva)
+        // }
     }
     
     public void OnUpdate() {
@@ -165,17 +206,18 @@ public class NodeManager {
                 pathFinding = new BFS();
                 break;
             case FindingPathType.DIJKSTRA:
+                pathFinding = new Dijkstra();
                 break;
             case FindingPathType.ASTAR:
                 break;
             case FindingPathType.JPS:
                 break;
         }
-        pathFinding?.Init(nodeDic, maxX, maxY);
+        pathFinding?.Init(nodeDic, xMax, yMax);
     }
 
     public void ResetFind() {
-        foreach (var node in nodeDic.Keys) {
+        foreach (var node in nodeDic.Values) {
             ChangeNodeType(node, NodeType.Default);
         }
         isFinding = false;
@@ -188,6 +230,14 @@ public class NodeManager {
     public void ChangePathFindingType(int nt) {
         UIFindingPathType = (FindingPathType)nt;
     }
+
+    public void ChangePathHasValue(bool isShow) {
+        if (isShow) {
+            
+        } else {
+            
+        }
+    }
 }
 
 public class Node : MonoBehaviour {
@@ -195,6 +245,8 @@ public class Node : MonoBehaviour {
     public int y;
     public NodeType nodeType;
     public int ParentNodeIndex { get; set; } = -1;
+    
+    public NodeValue NodeValue { get; set; }
 
     private SpriteRenderer render;
     private TextMesh textMesh;
@@ -209,6 +261,7 @@ public class Node : MonoBehaviour {
         textMesh = transform.GetComponentInChildren<TextMesh>();
         this.mats = mats;
         SetText("");
+        NodeValue = new NodeValue();
     }
 
     public void ChangeNodeType(NodeType nt) {
@@ -283,6 +336,42 @@ public class Node : MonoBehaviour {
                 }
             }
         }
+    }
+}
+
+public class NodeValue {
+    public int NowIndex;
+    public Vector2 NowPos;
+    public List<int> AroundList = new List<int>(3);
+    public Dictionary<int, int> ValueDic = new Dictionary<int, int>(3);
+
+    public NodeValue() {
+        
+    }
+    public NodeValue(int index, Vector2 pos) {
+        NowIndex = index;
+        NowPos = pos;
+    }
+
+    public void AddAroundNode(List<int> aroundList) {
+        AroundList = aroundList;
+    }
+
+    public void AddAroundNodeValue(int index, int random) {
+        if (!AroundList.Contains(index) || ValueDic.ContainsKey(index)) {
+            return;
+        }
+        ValueDic.Add(index, random);
+    }
+}
+
+public struct NodePos {
+    public int x;
+    public int y;
+
+    public NodePos(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }
 

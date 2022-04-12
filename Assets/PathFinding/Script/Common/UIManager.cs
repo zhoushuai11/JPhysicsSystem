@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour {
     public Button resetBtn;
     public Dropdown touchTypeDropDown;
     public Dropdown pathFindingTypeDropDown;
+    public Toggle hasValueToggle;
 
     private void Awake() {
         startBtn.onClick.AddListener(() => {
@@ -24,6 +25,9 @@ public class UIManager : MonoBehaviour {
         });
         pathFindingTypeDropDown.onValueChanged.AddListener(value => {
             GameManager.nodeManager.ChangePathFindingType(value);
+        });
+        hasValueToggle.onValueChanged.AddListener(value => {
+            GameManager.nodeManager.ChangePathHasValue(value);
         });
     }
 }
