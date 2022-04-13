@@ -14,8 +14,9 @@ public class GameManager : MonoBehaviour {
         objRoot.SetParent(transform);
         objRoot.localPosition = Vector3.zero;
         gameMeshData = UnityEditor.AssetDatabase.LoadAssetAtPath<SOGameMeshData>(gameMeshDataPath);
-        nodeManager = new NodeManager();
-        nodeManager.Init(gameMeshData, objRoot);
+        
+        ObjectPool.Instance.Init(gameMeshData);
+        nodeManager = new NodeManager(gameMeshData, objRoot);
     }
 
     private void Update() {

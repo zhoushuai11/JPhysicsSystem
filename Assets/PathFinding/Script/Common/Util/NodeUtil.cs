@@ -5,11 +5,13 @@ public static class NodeUtil {
     public static int xMax;
     public static int yMax;
     public static float scale;
+    public static float offset;
 
-    public static void Init(int x, int y,float s) {
+    public static void Init(int x, int y, float s, float o) {
         xMax = x;
         yMax = y;
         scale = s;
+        offset = o;
     }
 
     public static int GetIndexByXAndY(Node node) {
@@ -26,10 +28,18 @@ public static class NodeUtil {
     }
 
     public static Vector2 GetPosByXAndY(int x, int y) {
-        var xcenter = xMax / 2;
-        var ycenter = yMax / 2;
-        var xPos = (x - xcenter) * scale * 1.03f;
-        var yPos = (y - ycenter) * scale * 1.03f;
+        var xcenter = x - xMax / 2;
+        var ycenter = y - yMax / 2;
+        var xPos = xcenter * (scale * 1.03f + offset);
+        var yPos = ycenter * (scale * 1.03f + offset);
+        return new Vector2(xPos, yPos);
+    }
+
+    public static Vector2 GetPosByXAndYNoOffset(int x, int y) {
+        var xcenter = x - xMax / 2;
+        var ycenter = y - yMax / 2;
+        var xPos = xcenter * (scale * 1.03f);
+        var yPos = ycenter * (scale * 1.03f);
         return new Vector2(xPos, yPos);
     }
 
@@ -39,7 +49,7 @@ public static class NodeUtil {
         GetXAndYByIndex(index, ref x, ref y);
         return GetPosByXAndY(x, y);
     }
-    
+
     // 获取当前节点周围的可走结点
     public static List<int> GetAroundTableNode(int x, int y) {
         var index = GetIndexByXAndY(x, y);
@@ -66,9 +76,10 @@ public static class NodeUtil {
         if ((y + 1) % yMax != 0) {
             list.Add(rightIndex);
         }
+
         return list;
     }
-    
+
     public static bool CanGoNode(Node node) {
         return node.nodeType != NodeType.Wall;
     }

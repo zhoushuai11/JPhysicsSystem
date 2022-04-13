@@ -6,6 +6,7 @@ public class SOGameMeshData : ScriptableObject {
     public int yNum;
     public GameObject defaultObj;
     public float objScale = 1;
+    public float nodeOffset = 0.0f;
     public Material[] materials;
 
     [Header("    权值相关  ")]

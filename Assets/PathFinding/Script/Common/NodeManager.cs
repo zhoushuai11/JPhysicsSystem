@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class NodeManager {
     private NodeType UIPencilType { get; set; }
     private FindingPathType UIFindingPathType { get; set; }
+    private bool HasNodeValue { get; set; } = true;
     
     private SOGameMeshData gameMeshData;
     
@@ -28,8 +29,8 @@ public class NodeManager {
     private Dictionary<NodePos, int> nodeValueDic = new Dictionary<NodePos, int>();
 
     private bool isBtnDown = false;
-    
-    public void Init(SOGameMeshData gameMeshData,Transform root) {
+
+    public NodeManager(SOGameMeshData gameMeshData, Transform root) {
         this.gameMeshData = gameMeshData;
         nodeLayer = 1 << LayerMask.NameToLayer("Node");
         setMats = gameMeshData.materials;
@@ -42,7 +43,7 @@ public class NodeManager {
         xMax = gameMeshData.xNum;
         yMax = gameMeshData.yNum;
         var scale = gameMeshData.objScale;
-        NodeUtil.Init(xMax, yMax, scale);
+        NodeUtil.Init(xMax, yMax, scale, gameMeshData.nodeOffset);
         
         // 设置默认 start and end
         var startIndexX = Random.Range(0, xMax);
@@ -50,12 +51,12 @@ public class NodeManager {
         var endIndexX = (startIndexX < xMax / 2)? Random.Range(startIndexX + 1, xMax) : Random.Range(0, startIndexX);
         var endIndexY = (startIndexY < yMax / 2)? Random.Range(startIndexY + 1, yMax) : Random.Range(0, startIndexY);
         
-        var prefab = gameMeshData.defaultObj;
-        prefab.transform.localScale = Vector3.one * scale;
         for (int i = 0; i < yMax; i++) {
             for (int j = 0; j < xMax; j++) {
                 var pos = NodeUtil.GetPosByXAndY(i, j);
-                var obj = GameObject.Instantiate(prefab, objRoot);
+                var obj = ObjectPool.Instance.GetObjBySign(ObjSign.Node);
+                obj.transform.parent = objRoot;
+                obj.transform.localScale = Vector3.one * scale;
                 obj.transform.localPosition = pos;
                 obj.name = $"{i},{j}";
                 var nodeComponent = obj.AddComponent<Node>();
@@ -96,23 +97,56 @@ public class NodeManager {
                     foreach (var nextIndex in aroundList) {
                         var v2 = new NodePos(index, nextIndex);
                         var otherWayValue = new NodePos(nextIndex, index);
-                        if (nodeValueDic.ContainsKey(otherWayValue)) {
-                            random = nodeValueDic[otherWayValue];
-                        } else {
+                        if (!nodeValueDic.ContainsKey(otherWayValue)) {
                             random = Random.Range(rangeX, rangeY);
+                            nodeValueDic.Add(v2, random);
                         }
-                        nodeValueDic.Add(v2, random);
                     }
                 }
             }
         }
-        
-        // // 更新两两之间的显示
-        // var parent = gameMeshData.txtObj;
-        // var obj = GameObject.Instantiate(parent, objRoot);
-        // foreach (var nodeValue in nodeValueDic) {
-        //     var pos1 = NodeUtil.GetPosByIndex(nodeva)
-        // }
+
+        CreateNodeValueObj();
+    }
+    
+    // 刷新两节点之间的权值
+    private void RefreshNodeValue() {
+        var range = gameMeshData.valueRange;
+        var rangeX = (int)range.x;
+        var rangeY = (int)range.y;
+        var list = nodeValueDic.Keys.ToList();
+        foreach (var key in list) {
+            var random = Random.Range(rangeX, rangeY);
+            nodeValueDic[key] = random;
+        }
+        CreateNodeValueObj();
+    }
+
+    private void CreateNodeValueObj() {
+        foreach (var nodeValue in nodeValueDic) {
+            // 更新两两之间的显示
+            var nodePos = nodeValue.Key;
+            var randomValue = nodeValue.Value;
+            var pos1 = NodeUtil.GetPosByIndex(nodePos.x);
+            var pos2 = NodeUtil.GetPosByIndex(nodePos.y);
+            var posOffset = (pos1 + pos2) / 2;
+
+            if (txtDic.ContainsKey(nodeValue.Key) && !txtDic[nodeValue.Key].activeSelf) {
+                txtDic.Remove(nodeValue.Key);
+            }
+
+            if (txtDic.ContainsKey(nodeValue.Key) && txtDic[nodeValue.Key].activeSelf) {
+                var nowObj = txtDic[nodeValue.Key];
+                nowObj.transform.localPosition = posOffset;
+                nowObj.GetComponent<TextMesh>().text = randomValue.ToString();
+            } else {
+                var obj = ObjectPool.Instance.GetObjBySign(ObjSign.NodeTxt);
+                obj.transform.parent = objRoot;
+                obj.transform.localPosition = posOffset;
+                obj.GetComponent<TextMesh>().text = randomValue.ToString();
+                txtDic.Add(nodeValue.Key, obj);
+            }
+        }
     }
     
     public void OnUpdate() {
@@ -199,6 +233,7 @@ public class NodeManager {
             return;
         }
 
+        RefreshWallNodePos();
         isFinding = true;
         PathFindingBase pathFinding = null;
         switch (UIFindingPathType) {
@@ -232,154 +267,33 @@ public class NodeManager {
     }
 
     public void ChangePathHasValue(bool isShow) {
+        if (HasNodeValue == isShow) {
+            return;
+        }
+
+        HasNodeValue = isShow;
         if (isShow) {
-            
+            this.RefreshNodeValue();
         } else {
-            
-        }
-    }
-}
-
-public class Node : MonoBehaviour {
-    public int x;
-    public int y;
-    public NodeType nodeType;
-    public int ParentNodeIndex { get; set; } = -1;
-    
-    public NodeValue NodeValue { get; set; }
-
-    private SpriteRenderer render;
-    private TextMesh textMesh;
-    private Material[] mats;
-    private const float TIMEOFFSET = 0.1f;
-
-    public void Init(int setX, int setY, NodeType setNodeType, Material[] mats) {
-        x = setX;
-        y = setY;
-        nodeType = setNodeType;
-        render = transform.GetComponent<SpriteRenderer>();
-        textMesh = transform.GetComponentInChildren<TextMesh>();
-        this.mats = mats;
-        SetText("");
-        NodeValue = new NodeValue();
-    }
-
-    public void ChangeNodeType(NodeType nt) {
-        if (nodeType == nt) {
-            return;
-        }
-
-        nodeType = nt;
-        render.material = mats[(int)nt];
-        if (nt != NodeType.FinalWay) {
-            SetText("");
-        }
-
-        if (nt == NodeType.Default) {
-            ParentNodeIndex = -1;
-        }
-    }
-
-    public void SetText(string t) {
-        textMesh.text = t;
-    }
-
-    private bool isStartDelayShowPoint = false;
-    private float delayShowPointTime = 0.0f;
-    private bool isStartDelayShowFinalWay = false;
-    private int finalPointIndex = 0;
-    private float delayShowFinal = 0.0f;
-    private float allWayCountTime = 0.0f;
-    /// <summary>
-    /// 演示搜索路径
-    /// </summary>
-    /// <param name="index">第几步</param>
-    public void DelayShowCheckWay(int index) {
-        delayShowPointTime = TIMEOFFSET * index;
-        isStartDelayShowPoint = true;
-    }
-
-    /// <summary>
-    /// 演示最终路径
-    /// </summary>
-    /// <param name="index">第几步</param>
-    /// <param name="allWayPointCount">一共几部</param>
-    public void DelayShowFinalWay(int index, int allWayPointCount) {
-        allWayCountTime = allWayPointCount * TIMEOFFSET;
-        finalPointIndex = index;
-        delayShowFinal = index * TIMEOFFSET;
-        isStartDelayShowFinalWay = true;
-    }
-
-    private void Update() {
-        if (!isStartDelayShowPoint && !isStartDelayShowFinalWay) {
-            return;
-        }
-
-        if (isStartDelayShowPoint) {
-            delayShowPointTime -= Time.deltaTime;
-            if (delayShowPointTime <= 0) {
-                ChangeNodeType(NodeType.Checked);
-                isStartDelayShowPoint = false;
+            foreach (var value in txtDic) {
+                value.Value.SetActive(false);
             }
         }
+        RefreshNodePos();
+    }
 
-        if (isStartDelayShowFinalWay) {
-            if (allWayCountTime > 0) {
-                allWayCountTime -= Time.deltaTime;
-            } else {
-                delayShowFinal -= Time.deltaTime;
-                if (delayShowFinal < 0) {
-                    isStartDelayShowFinalWay = false;
-                    ChangeNodeType(NodeType.FinalWay);
-                    SetText(finalPointIndex.ToString());
-                }
+    private void RefreshNodePos() {
+        foreach (var node in nodeDic.Values) {
+            node.transform.localPosition = HasNodeValue? NodeUtil.GetPosByXAndY(node.x, node.y) : NodeUtil.GetPosByXAndYNoOffset(node.x, node.y);
+        }
+    }
+
+    private void RefreshWallNodePos() {
+        foreach (var nodeValue in txtDic) {
+            var nodePos = nodeValue.Key;
+            if (!NodeUtil.CanGoNode(nodeDic[nodePos.x]) || !NodeUtil.CanGoNode(nodeDic[nodePos.y])) {
+                nodeValue.Value.SetActive(false);
             }
         }
     }
-}
-
-public class NodeValue {
-    public int NowIndex;
-    public Vector2 NowPos;
-    public List<int> AroundList = new List<int>(3);
-    public Dictionary<int, int> ValueDic = new Dictionary<int, int>(3);
-
-    public NodeValue() {
-        
-    }
-    public NodeValue(int index, Vector2 pos) {
-        NowIndex = index;
-        NowPos = pos;
-    }
-
-    public void AddAroundNode(List<int> aroundList) {
-        AroundList = aroundList;
-    }
-
-    public void AddAroundNodeValue(int index, int random) {
-        if (!AroundList.Contains(index) || ValueDic.ContainsKey(index)) {
-            return;
-        }
-        ValueDic.Add(index, random);
-    }
-}
-
-public struct NodePos {
-    public int x;
-    public int y;
-
-    public NodePos(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-public enum NodeType {
-    Default,
-    Start,
-    End,
-    Wall,
-    Checked,
-    FinalWay,
 }
