@@ -45,12 +45,6 @@ public class NodeManager {
         var scale = gameMeshData.objScale;
         NodeUtil.Init(xMax, yMax, scale, gameMeshData.nodeOffset);
         
-        // 设置默认 start and end
-        var startIndexX = Random.Range(0, xMax);
-        var startIndexY = Random.Range(0, yMax);
-        var endIndexX = (startIndexX < xMax / 2)? Random.Range(startIndexX + 1, xMax) : Random.Range(0, startIndexX);
-        var endIndexY = (startIndexY < yMax / 2)? Random.Range(startIndexY + 1, yMax) : Random.Range(0, startIndexY);
-        
         for (int i = 0; i < yMax; i++) {
             for (int j = 0; j < xMax; j++) {
                 var pos = NodeUtil.GetPosByXAndY(i, j);
@@ -62,16 +56,22 @@ public class NodeManager {
                 var nodeComponent = obj.AddComponent<Node>();
                 nodeComponent.Init(i, j, NodeType.Default, setMats);
                 nodeDic.Add(NodeUtil.GetIndexByXAndY(i, j), nodeComponent);
-                if (i == startIndexX && j == startIndexY) {
-                    ChangeNodeType(nodeComponent, NodeType.Start);
-                } else if (i == endIndexX && j == endIndexY) {
-                    ChangeNodeType(nodeComponent, NodeType.End);
-                }
             }
         }
 
+        UpdateStartAndEndIndex();
         UpdateAroundValue();
         UpdateNodeValue();
+    }
+
+    private void UpdateStartAndEndIndex() {
+        // 设置默认 start and end
+        var startIndexX = Random.Range(0, xMax);
+        var startIndexY = Random.Range(0, yMax);
+        var endIndexX = (startIndexX < xMax / 2)? Random.Range(startIndexX + 1, xMax) : Random.Range(0, startIndexX);
+        var endIndexY = (startIndexY < yMax / 2)? Random.Range(startIndexY + 1, yMax) : Random.Range(0, startIndexY);
+        ChangeNodeType(nodeDic[NodeUtil.GetIndexByXAndY(startIndexX, startIndexY)], NodeType.Start);
+        ChangeNodeType(nodeDic[NodeUtil.GetIndexByXAndY(endIndexX, endIndexY)], NodeType.End);
     }
 
     // 更新各个节点之间的可到达节点
@@ -256,6 +256,7 @@ public class NodeManager {
             ChangeNodeType(node, NodeType.Default);
         }
         isFinding = false;
+        UpdateStartAndEndIndex();
     }
 
     public void ChangeUIPencilNode(int nt) {

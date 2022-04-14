@@ -5,20 +5,21 @@ using UnityEngine;
 public class BFS : PathFindingBase {
     public override void Find() {
         base.Find();
-        Debug.LogError("StartBFSFind");
-        DFSTravel(startIndex);
+        // DFSTravel(startIndex);
 
-        // BFSSearch();
+        BFSSearch();
         DelayShowWayParent();
     }
 
     private void BFSSearch() {
         finalIndex = 0;
         travelList.Clear();
-        var queue = new Queue<int>();
-        queue.Enqueue(startIndex);
-        while (queue.Count > 0 && !isFindingOver) {
-            var value = queue.Dequeue();
+        var openList = new List<int> {
+            startIndex
+        };
+        while (openList.Count > 0 && !isFindingOver) {
+            var value = SelectPointInList(openList);
+            openList.Remove(value);
             if (travelList.Contains(value)) {
                 continue;
             }
@@ -33,12 +34,12 @@ public class BFS : PathFindingBase {
             }
 
             var isAddIndex = false;
-            ReSortAroundList(list, endIndex);
             for (int i = 0; i < list.Count; i++) {
                 var nextValue = list[i];
                 if (!travelList.Contains(nextValue)) {
                     isAddIndex = true;
-                    queue.Enqueue(nextValue);
+                    // queue.Enqueue(nextValue);
+                    openList.Add(nextValue);
                     nodeIndexDic[nextValue].ParentNodeIndex = value;
                     nodeIndexDic[nextValue].DelayShowCheckWay(finalIndex);
                 }
@@ -58,8 +59,8 @@ public class BFS : PathFindingBase {
     /// <returns></returns>
     private void ReSortAroundList(List<int> aroundList, int endIndex) {
         aroundList.Sort((x, y) => {
-            var xDistance = GetManhattanDistance(x, endIndex);
-            var yDistance = GetManhattanDistance(y, endIndex);
+            var xDistance = GetManhattanDistance(x);
+            var yDistance = GetManhattanDistance(y);
             if (xDistance > yDistance) {
                 return 1;
             } else if (xDistance < yDistance) {
@@ -70,13 +71,26 @@ public class BFS : PathFindingBase {
         });
     }
 
-    private int GetManhattanDistance(int nowIndex, int target) {
+    private int SelectPointInList(List<int> list) {
+        var minCost = GetManhattanDistance(list[0]);
+        var nowIndex = list[0];
+        foreach (var value in list) {
+            var valueCost = GetManhattanDistance(value);
+            if (valueCost < minCost) {
+                minCost = valueCost;
+                nowIndex = value;
+            }
+        }
+        return nowIndex;
+    }
+
+    private int GetManhattanDistance(int nowIndex) {
         var startPosX = 0;
         var startPosY = 0;
         NodeUtil.GetXAndYByIndex(nowIndex, ref startPosX, ref startPosY);
         var endPosX = 0;
         var endPosY = 0;
-        NodeUtil.GetXAndYByIndex(target, ref endPosX, ref endPosY);
+        NodeUtil.GetXAndYByIndex(endIndex, ref endPosX, ref endPosY);
         return (Mathf.Abs(startPosX - endPosX) + Mathf.Abs(startPosY - endPosY));
     }
 
