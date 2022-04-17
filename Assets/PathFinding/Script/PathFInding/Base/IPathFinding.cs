@@ -84,4 +84,46 @@ public class PathFindingBase : IPathFinding {
         }
     }
     
+    /// <summary>
+    /// 根据启发式函数来重新排序访问顺序。。
+    /// </summary>
+    /// <param name="aroundList"></param>
+    /// <param name="endIndex"></param>
+    /// <returns></returns>
+    protected void ReSortAroundList(List<int> aroundList, int endIndex) {
+        aroundList.Sort((x, y) => {
+            var xDistance = GetManhattanDistance(x);
+            var yDistance = GetManhattanDistance(y);
+            if (xDistance > yDistance) {
+                return 1;
+            } else if (xDistance < yDistance) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+    }
+
+    protected int SelectPointInList(List<int> list) {
+        var minCost = GetManhattanDistance(list[0]);
+        var nowIndex = list[0];
+        foreach (var value in list) {
+            var valueCost = GetManhattanDistance(value);
+            if (valueCost < minCost) {
+                minCost = valueCost;
+                nowIndex = value;
+            }
+        }
+        return nowIndex;
+    }
+
+    private int GetManhattanDistance(int nowIndex) {
+        var startPosX = 0;
+        var startPosY = 0;
+        NodeUtil.GetXAndYByIndex(nowIndex, ref startPosX, ref startPosY);
+        var endPosX = 0;
+        var endPosY = 0;
+        NodeUtil.GetXAndYByIndex(endIndex, ref endPosX, ref endPosY);
+        return (Mathf.Abs(startPosX - endPosX) + Mathf.Abs(startPosY - endPosY));
+    }
 }
