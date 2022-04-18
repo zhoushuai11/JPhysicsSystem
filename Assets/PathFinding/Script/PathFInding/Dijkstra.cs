@@ -9,6 +9,10 @@ public class Dijkstra : PathFindingBase {
 
     private Dictionary<int, int> allCost = new Dictionary<int, int>();
     private List<int> nowWay = new List<int>();
+    private void UpdateNodeCost(int index, int cost) {
+        
+    }
+
     /// <summary>
     /// 采用广度优先搜索的思想，每次更新最低消耗
     /// </summary>
@@ -19,8 +23,7 @@ public class Dijkstra : PathFindingBase {
             startIndex
         };
         while (openList.Count > 0 && !isFindingOver) {
-            var value = SelectPointInList(openList);
-            // var value = openList[0];
+            var value = openList[0];
             openList.Remove(value);
             if (travelList.Contains(value)) {
                 continue;
