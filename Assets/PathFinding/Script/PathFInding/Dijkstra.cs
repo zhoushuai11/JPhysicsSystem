@@ -1,20 +1,42 @@
 using System.Collections.Generic;
 
 public class Dijkstra : PathFindingBase {
+    private Dictionary<int, int> allCost = new Dictionary<int, int>();
+    private List<int> nowWay = new List<int>();
+
+    public class CostValue {
+        public int cost = 0;
+        public List<int> wayList = new List<int>();
+    }
+
     public override void Find() {
         base.Find();
         DijkstraTravel();
         DelayShowWayParent();
     }
 
-    private Dictionary<int, int> allCost = new Dictionary<int, int>();
-    private List<int> nowWay = new List<int>();
-    private void UpdateNodeCost(int index, int cost) {
+    /// <summary>
+    /// 获取当前列表里 cost 最低的节点
+    /// </summary>
+    /// <returns></returns>
+    private int GetMinCostIndex() {
         
     }
 
     /// <summary>
-    /// 采用广度优先搜索的思想，每次更新最低消耗
+    /// 更新当前节点周围可环绕节点的 cost 值
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="cost"></param>
+    private void UpdateNodeCost(int index, int cost) {
+        if (!allCost.ContainsKey(index)) {
+            allCost.Add(index, cost);
+        }
+    }
+
+    /// <summary>
+    /// 采用广度优先搜索的思想，每次更新最低消耗。
+    /// 迪杰斯特拉只关心起点到目标点的消耗，是基于贪心策略的。
     /// </summary>
     private void DijkstraTravel() {
         finalIndex = 0;
