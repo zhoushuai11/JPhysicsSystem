@@ -248,7 +248,8 @@ public class NodeManager {
             case FindingPathType.JPS:
                 break;
         }
-        pathFinding?.Init(nodeDic, xMax, yMax);
+
+        pathFinding?.Init(nodeDic, nodeValueDic, xMax, yMax);
     }
 
     public void ResetFind() {

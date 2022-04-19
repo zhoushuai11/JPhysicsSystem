@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface IPathFinding {
-    public void Init(Dictionary<int, Node> nodeDic, int xMax, int yMax);
+    public void Init(Dictionary<int, Node> nodeDic, Dictionary<NodePos, int> valueDic, int xMax, int yMax);
     public void Find();
 }
 
@@ -16,6 +16,7 @@ public enum FindingPathType {
 public class PathFindingBase : IPathFinding {
     protected Dictionary<int, List<int>> listTableDic = new Dictionary<int, List<int>>();
     protected Dictionary<int, Node> nodeIndexDic = new Dictionary<int, Node>();
+    protected Dictionary<NodePos, int> nodeValueDic = new Dictionary<NodePos, int>();
 
     protected int xMax = 0;
     protected int yMax = 0;
@@ -29,10 +30,11 @@ public class PathFindingBase : IPathFinding {
     protected bool isFindingOver = false;
     protected List<int> travelList = new List<int>();
 
-    public void Init(Dictionary<int, Node> nodeDic, int xMax, int yMax) {
+    public void Init(Dictionary<int, Node> nodeDic, Dictionary<NodePos, int> valueDic, int xMax, int yMax) {
         this.xMax = xMax;
         this.yMax = yMax;
         nodeIndexDic = nodeDic;
+        nodeValueDic = valueDic;
 
         CreatePathTable();
         Find();
@@ -74,7 +76,7 @@ public class PathFindingBase : IPathFinding {
     public virtual void Find() {
     }
 
-    protected void DelayShowWayParent() {
+    protected virtual void DelayShowWayParent() {
         var parentIndex = endIndex;
         var m = 0;
         while (parentIndex != -1) {
@@ -83,7 +85,7 @@ public class PathFindingBase : IPathFinding {
             parentIndex = parentNode.ParentNodeIndex;
         }
     }
-    
+
     /// <summary>
     /// 根据启发式函数来重新排序访问顺序。。
     /// </summary>
@@ -114,6 +116,7 @@ public class PathFindingBase : IPathFinding {
                 nowIndex = value;
             }
         }
+
         return nowIndex;
     }
 

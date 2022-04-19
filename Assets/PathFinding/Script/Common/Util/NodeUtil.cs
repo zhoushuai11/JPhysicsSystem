@@ -32,7 +32,7 @@ public static class NodeUtil {
         var ycenter = y - yMax / 2;
         var xPos = xcenter * (scale * 1.03f + offset);
         var yPos = ycenter * (scale * 1.03f + offset);
-        return new Vector2(xPos, yPos);
+        return new Vector2(yPos, xPos);
     }
 
     public static Vector2 GetPosByXAndYNoOffset(int x, int y) {
@@ -40,7 +40,7 @@ public static class NodeUtil {
         var ycenter = y - yMax / 2;
         var xPos = xcenter * (scale * 1.03f);
         var yPos = ycenter * (scale * 1.03f);
-        return new Vector2(xPos, yPos);
+        return new Vector2(yPos, xPos);
     }
 
     public static Vector2 GetPosByIndex(int index) {
