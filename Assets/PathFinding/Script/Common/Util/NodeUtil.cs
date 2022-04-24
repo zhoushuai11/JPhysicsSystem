@@ -6,12 +6,14 @@ public static class NodeUtil {
     public static int yMax;
     public static float scale;
     public static float offset;
+    public static int manhatunDistanceOffset;
 
-    public static void Init(int x, int y, float s, float o) {
+    public static void Init(int x, int y, float s, float o, Vector2 manhatonDistance) {
         xMax = x;
         yMax = y;
         scale = s;
         offset = o;
+        manhatunDistanceOffset = (int)((manhatonDistance.x + manhatonDistance.y) / 3);
     }
 
     public static int GetIndexByXAndY(Node node) {

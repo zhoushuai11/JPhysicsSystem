@@ -6,23 +6,6 @@ public class Dijkstra : PathFindingBase {
     private List<CostValue> travelCostList = new List<CostValue>();
     private List<int> nowWay = new List<int>();
 
-    public class CostValue {
-        public int index = 0;
-        public int allCost = 0;
-        public List<int> wayList = new List<int>();
-
-        public CostValue(int setIndex, int setAllCost, List<int> setList) {
-            index = setIndex;
-            allCost = setAllCost;
-            wayList = setList;
-        }
-
-        public void SetNewCost(int setAllCost, List<int> setList) {
-            allCost = setAllCost;
-            wayList = setList;
-        }
-    }
-
     public override void Find() {
         base.Find();
         DijkstraTravel();
@@ -63,6 +46,7 @@ public class Dijkstra : PathFindingBase {
             travelList.Add(value);
             var node = nodeIndexDic[value];
             var list = listTableDic[value];
+            node.DelayShowCheckWay(finalIndex++);
             if (node.nodeType == NodeType.End) {
                 // 结束
                 isFindingOver = true;
@@ -73,7 +57,6 @@ public class Dijkstra : PathFindingBase {
                 var nextValue = list[i];
                 if (!travelList.Contains(nextValue)) {
                     openList.Add(nextValue);
-                    nodeIndexDic[nextValue].DelayShowCheckWay(finalIndex);
                     UpdateNodeCost(value, nextValue, costValue);
                     travelCostList.Add(allCost[nextValue]);
                 }
@@ -86,18 +69,17 @@ public class Dijkstra : PathFindingBase {
     /// </summary>
     /// <returns></returns>
     private CostValue GetMinCostIndex() {
-        var cost = -1;
-        var index = 0;
+        var costValue = travelCostList[0];
+        var cost = costValue.allCost;
         foreach (var node in travelCostList) {
             var nodeCost = node.allCost;
-            if (cost == -1 || nodeCost < cost) {
-                index = node.index;
+            if (nodeCost < cost) {
                 cost = nodeCost;
-                return node;
+                costValue = node;
             }
         }
 
-        return null;
+        return costValue;
     }
 
     /// <summary>

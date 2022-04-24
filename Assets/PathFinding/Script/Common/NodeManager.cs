@@ -43,7 +43,7 @@ public class NodeManager {
         xMax = gameMeshData.xNum;
         yMax = gameMeshData.yNum;
         var scale = gameMeshData.objScale;
-        NodeUtil.Init(xMax, yMax, scale, gameMeshData.nodeOffset);
+        NodeUtil.Init(xMax, yMax, scale, gameMeshData.nodeOffset, gameMeshData.valueRange);
         
         for (int i = 0; i < yMax; i++) {
             for (int j = 0; j < xMax; j++) {
@@ -244,6 +244,7 @@ public class NodeManager {
                 pathFinding = new Dijkstra();
                 break;
             case FindingPathType.ASTAR:
+                pathFinding = new AStar();
                 break;
             case FindingPathType.JPS:
                 break;

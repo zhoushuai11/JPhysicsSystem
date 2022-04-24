@@ -14,6 +14,23 @@ public enum FindingPathType {
 }
 
 public class PathFindingBase : IPathFinding {
+    public class CostValue {
+        public int index = 0;
+        public int gCost = 0;
+        public int allCost = 0;
+        public List<int> wayList = new List<int>();
+
+        public CostValue(int setIndex, int setAllCost, List<int> setList) {
+            index = setIndex;
+            allCost = setAllCost;
+            wayList = setList;
+        }
+
+        public void SetNewCost(int setAllCost, List<int> setList) {
+            allCost = setAllCost;
+            wayList = setList;
+        }
+    }
     protected Dictionary<int, List<int>> listTableDic = new Dictionary<int, List<int>>();
     protected Dictionary<int, Node> nodeIndexDic = new Dictionary<int, Node>();
     protected Dictionary<NodePos, int> nodeValueDic = new Dictionary<NodePos, int>();
@@ -120,13 +137,13 @@ public class PathFindingBase : IPathFinding {
         return nowIndex;
     }
 
-    private int GetManhattanDistance(int nowIndex) {
+    protected int GetManhattanDistance(int nowIndex) {
         var startPosX = 0;
         var startPosY = 0;
         NodeUtil.GetXAndYByIndex(nowIndex, ref startPosX, ref startPosY);
         var endPosX = 0;
         var endPosY = 0;
         NodeUtil.GetXAndYByIndex(endIndex, ref endPosX, ref endPosY);
-        return (Mathf.Abs(startPosX - endPosX) + Mathf.Abs(startPosY - endPosY));
+        return (Mathf.Abs(startPosX - endPosX) + Mathf.Abs(startPosY - endPosY)) * NodeUtil.manhatunDistanceOffset;
     }
 }
