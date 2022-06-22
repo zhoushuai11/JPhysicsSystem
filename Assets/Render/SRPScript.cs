@@ -8,6 +8,10 @@ namespace Render {
         
         protected override void Dispose(bool disposing) {
             base.Dispose(disposing);
+            if (cb != null) {
+                cb.Dispose();
+                cb = null;
+            }
             Debug.LogError("Dispose");
         }
 
@@ -18,7 +22,7 @@ namespace Render {
 
             foreach (var camera in cameras) {
                 context.SetupCameraProperties(camera);
-                cb.ClearRenderTarget(true, true, Color.blue);
+                cb.ClearRenderTarget(true, true, Color.black);
                 context.ExecuteCommandBuffer(cb);
                 cb.Clear();
                 context.Submit();
