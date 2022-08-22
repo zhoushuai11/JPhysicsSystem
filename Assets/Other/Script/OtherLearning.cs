@@ -9,6 +9,10 @@ public class OtherLearning : MonoBehaviour {
     void Start() {
         var obj = GameObject.CreatePrimitive(PrimitiveType.Capsule);
         targetTransform = obj.transform;
+        GameObject nullObj = null;
+        if (nullObj.isStatic) {
+            Debug.LogError("TTTTT");
+        }
     }
 
     // Update is called once per frame
@@ -16,6 +20,6 @@ public class OtherLearning : MonoBehaviour {
         var objDir = targetTransform.forward;
         var worldForward = Vector3.forward;
         var angle = Vector3.Angle(worldForward, objDir);
-        Debug.LogError(angle);
+        // Debug.LogError(angle);
     }
 }
