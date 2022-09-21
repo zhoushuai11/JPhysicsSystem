@@ -7,7 +7,10 @@ public class BrightnessSaturationAndContrast : PostEffectsBase {
 	private Material briSatConMaterial;
 	public Material material {  
 		get {
-			briSatConMaterial = CheckShaderAndCreateMaterial(briSatConShader, briSatConMaterial);
+			if (null == briSatConMaterial) {
+				briSatConMaterial = new Material(briSatConShader);
+				briSatConMaterial.hideFlags = HideFlags.DontSave;
+			}
 			return briSatConMaterial;
 		}  
 	}

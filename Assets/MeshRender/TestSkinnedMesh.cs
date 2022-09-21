@@ -4,8 +4,20 @@ using UnityEngine;
 
 public class TestSkinnedMesh : MonoBehaviour {
     // Start is called before the first frame update
+
     void Start() {
-        CreateSkinnedMesh();
+        // CreateSkinnedMesh();
+        var obj1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        obj1.name = "Obj1";
+        obj1.transform.position = new Vector3(1, 2, 3);
+        obj1.transform.eulerAngles = new Vector3(45, 45, 45);
+        var obj2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        obj2.name = "Obj2";
+        obj2.transform.SetParent(obj1.transform);
+        obj2.transform.localPosition = new Vector3(3, 3, 3);
+        
+        obj2.transform.CustomLocalToWorld(obj1.transform);
+        // obj2.transform.CustomWorldToLocal(obj1.transform);
     }
 
     private GameObject gameObject;
@@ -83,5 +95,7 @@ public class TestSkinnedMesh : MonoBehaviour {
         anim.clip = clip;
 
         anim.Play();
+        
+        // transform.TransformPoint()
     }
 }

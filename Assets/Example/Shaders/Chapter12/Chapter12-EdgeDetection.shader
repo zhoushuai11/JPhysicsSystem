@@ -54,18 +54,18 @@ Shader "Unity Shaders Book/Chapter 12/Edge Detection" {
 			
 			half Sobel(v2f i) {
 				const half Gx[9] = {-1,  0,  1,
-										-2,  0,  2,
-										-1,  0,  1};
+									-2,  0,  2,
+									-1,  0,  1};
 				const half Gy[9] = {-1, -2, -1,
-										0,  0,  0,
-										1,  2,  1};		
+									0,  0,  0,
+									1,  2,  1};		
 				
 				half texColor;
 				half edgeX = 0;
 				half edgeY = 0;
 				for (int it = 0; it < 9; it++) {
-					texColor = luminance(tex2D(_MainTex, i.uv[it]));
-					edgeX += texColor * Gx[it];
+					texColor = luminance(tex2D(_MainTex, i.uv[it])); // 获取采样节点的光照强度
+					edgeX += texColor * Gx[it]; //分别计算卷积值
 					edgeY += texColor * Gy[it];
 				}
 				
