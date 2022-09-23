@@ -17,7 +17,13 @@ public class TestSkinnedMesh : MonoBehaviour {
         obj2.transform.localPosition = new Vector3(3, 3, 3);
         
         obj2.transform.CustomLocalToWorld(obj1.transform);
+
+        var forward = obj1.transform.rotation * Vector3.forward;
+        Debug.LogError($"CalcForward:{forward} API:{obj1.transform.forward}");
+        
+        // Quaternion.Euler() obj1.transform.eulerAngles
         // obj2.transform.CustomWorldToLocal(obj1.transform);
+        
     }
 
     private GameObject gameObject;

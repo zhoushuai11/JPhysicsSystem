@@ -3,48 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class TestVector {
-    public static Vector3 TransformToTarget(this Transform transform, Vector3 targetTransPos) {
-        // 位移矩阵
-        var trans = new Matrix4x4(
-            new Vector4(1, 0, 0, 0), 
-            new Vector4(0, 1, 0, 0), 
-            new Vector4(0, 0, 1, 0), 
-            new Vector4(-transform.position.x, -transform.position.y, -transform.position.z, 1));
-        // 旋转矩阵
-        var rotZ = new Matrix4x4(
-            new Vector4(Mathf.Cos(-transform.eulerAngles.z * Mathf.PI / 180), Mathf.Sin(-transform.eulerAngles.z * Mathf.PI / 180), 0, 0),
-            new Vector4(-Mathf.Sin(-transform.eulerAngles.z * Mathf.PI / 180), Mathf.Cos(-transform.eulerAngles.z * Mathf.PI / 180), 0, 0),
-            new Vector4(0, 0, 1, 0),
-            new Vector4(0, 0, 0, 1));
- 
-        var rotX = new Matrix4x4(
-            new Vector4(1, 0, 0, 0),
-            new Vector4(0, Mathf.Cos(-transform.eulerAngles.x * Mathf.PI / 180), Mathf.Sin(-transform.eulerAngles.x * Mathf.PI / 180), 0),
-            new Vector4(0, -Mathf.Sin(-transform.eulerAngles.x * Mathf.PI / 180), Mathf.Cos(-transform.eulerAngles.x * Mathf.PI / 180), 0),
-            new Vector4(0, 0, 0, 1));
- 
-        var rotY = new Matrix4x4(
-                new Vector4(Mathf.Cos(-transform.eulerAngles.y * Mathf.PI / 180), 0, -Mathf.Sin(-transform.eulerAngles.y * Mathf.PI / 180), 0),
-                new Vector4(0, 1, 0, 0),
-                new Vector4(Mathf.Sin(-transform.eulerAngles.y * Mathf.PI / 180), 0, Mathf.Cos(-transform.eulerAngles.y * Mathf.PI / 180), 0),
-                new Vector4(0, 0, 0, 1));
-        // 获取变换矩阵
-        var mView = (new Matrix4x4(
-                new Vector4(1, 0, 0, 0),
-                new Vector4(0, 1, 0, 0),
-                new Vector4(0, 0, 1, 0),
-                new Vector4(0, 0, 0, 1)
-            )) * rotZ * rotX * rotY * trans;
-        
-        PrintMatrix(mView);
-        PrintMatrix(transform.worldToLocalMatrix);
-        var pWorld = new Vector4(targetTransPos.x, targetTransPos.y, targetTransPos.z, 1);
-        var pLocal = mView * pWorld;
-        Debug.LogError($"Out: {pLocal}");
-        // transform.position = pLocal;
-        return pLocal;
-    }
-
     public static Vector3 CustomLocalToWorld(this Transform transform, Transform parent) {
         // 缩放矩阵
         var scaleMatrix = CustomMatrix4X4(
