@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public static class TestVector {
+public static class TransformPosTool {
     public static Vector3 CustomLocalToWorld(this Transform transform, Transform parent) {
         // 缩放矩阵
         var scaleMatrix = CustomMatrix4X4(
@@ -48,8 +46,8 @@ public static class TestVector {
         PrintMatrix(parent.localToWorldMatrix);
         PrintMatrix(Matrix4x4.TRS(parent.position, parent.rotation, parent.localScale));
         var pLocal = new Vector4(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z, 1);
-        var pWorld = parent.localToWorldMatrix * pLocal;
-        Debug.LogError($"Out: {pWorld}");
+        // var pWorld = parent.localToWorldMatrix * pLocal;
+        var pWorld = mLocalToWorld * pLocal;
         // transform.position = pLocal;
         return pWorld;
     }
@@ -98,7 +96,8 @@ public static class TestVector {
         PrintMatrix(mWorldToLocal);
         PrintMatrix(local.worldToLocalMatrix);
         var pWorld = new Vector4(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z, 1);
-        var pLocal = local.worldToLocalMatrix * pWorld;
+        // var pLocal = local.worldToLocalMatrix * pWorld;
+        var pLocal = mWorldToLocal * pWorld;
         Debug.LogError($"Out: {pLocal}");
         return pLocal;
     }
