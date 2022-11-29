@@ -642,7 +642,6 @@ GameObject:
   m_Component:
   - component: {fileID: 437751205}
   - component: {fileID: 437751204}
-  - component: {fileID: 437751206}
   m_Layer: 0
   m_Name: QuadTree
   m_TagString: Untagged
@@ -682,19 +681,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &437751206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 437751203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdf06dc337b4ef44bbab52e3813db5e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cube: {fileID: 43928099}
 --- !u!1 &595257278
 GameObject:
   m_ObjectHideFlags: 0

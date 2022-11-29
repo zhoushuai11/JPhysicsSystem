@@ -170,10 +170,10 @@ namespace J2P
 			}
 
 			// // Horizontal
-			// this.HorizontalCollisionDetect();
+			this.HorizontalCollisionDetect();
 			//
 			// // Vertical
-			// this.VerticalCollisionDetect();
+			this.VerticalCollisionDetect();
 			Profiler.EndSample();
 		}
 

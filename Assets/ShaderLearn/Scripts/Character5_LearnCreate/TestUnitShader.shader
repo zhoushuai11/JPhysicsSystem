@@ -32,6 +32,9 @@ Shader "Custom/TestUnitShader"
             v2f vert(a2v v){
                 v2f f; // 声明输出结构 
                 f.position = UnityObjectToClipPos(v.vertex);
+                if(v.vertex.x - v.vertex.y > 0){
+                     f.position = f.position + fixed4(1,1,1,1);
+                }
                 f.temp = v.normal;
                 return f;
             }
