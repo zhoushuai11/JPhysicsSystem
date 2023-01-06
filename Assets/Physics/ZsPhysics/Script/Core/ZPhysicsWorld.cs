@@ -19,7 +19,7 @@ namespace ZsPhysics {
                 body.LinearVelocity += gravityImpulse * body.GravityScale;
             }
 
-            // pos
+            // pos and rota
             foreach (var body in rigidBodyList) {
                 body.Integrate(dt);
             }
