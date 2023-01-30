@@ -7,9 +7,11 @@ namespace ZsPhysics {
     public class ZPhysicsWorld {
         private static Vector3 Gravity = new Vector3(0, -9.8f, 0);
         private static List<ZPhysicsBody> rigidBodyList;
+        private static List<ZPhysicsCollider> colliderList;
 
         public static void Init() {
             rigidBodyList = new List<ZPhysicsBody>();
+            colliderList = new List<ZPhysicsCollider>();
         }
 
         public static void Tick(float dt) {
@@ -23,6 +25,14 @@ namespace ZsPhysics {
             foreach (var body in rigidBodyList) {
                 body.Integrate(dt);
             }
+        }
+
+        public static void Register(ZPhysicsCollider b) {
+            colliderList.Add(b);
+        }
+
+        public static void UnRegister(ZPhysicsCollider b) {
+            colliderList.Remove(b);
         }
 
         public static void Register(ZPhysicsBody b) {

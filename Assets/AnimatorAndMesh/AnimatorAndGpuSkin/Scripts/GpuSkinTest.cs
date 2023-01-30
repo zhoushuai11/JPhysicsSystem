@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimTest : MonoBehaviour
+public class GpuSkinTest : MonoBehaviour
 {
     public string animName = "walk";
     public string animDir = "Assets/Resources/Anims";

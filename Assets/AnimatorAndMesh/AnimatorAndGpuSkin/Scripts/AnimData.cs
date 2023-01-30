@@ -19,5 +19,4 @@ public class AnimData : ScriptableObject
     public int frame;
     [SerializeField]
     public FrameData[] frameDatas;
-
 }
