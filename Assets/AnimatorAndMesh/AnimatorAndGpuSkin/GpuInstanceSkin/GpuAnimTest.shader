@@ -1,4 +1,4 @@
-Shader "Unlit/GpuSkinTestShader"
+Shader "Unlit/GpuAnimTest"
 {
     Properties
     {
@@ -40,12 +40,13 @@ Shader "Unlit/GpuSkinTestShader"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float4 param[653];
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4,_Color)
                 UNITY_DEFINE_INSTANCED_PROP(float, _Phi)
             UNITY_INSTANCING_BUFFER_END(Props)
 
-            v2f vert (appdata v)
+            v2f vert (appdata v,uint vid : SV_VertexID)
             {
                 v2f o;
                 // 第四步，instanceId 在顶点的位置
@@ -53,7 +54,8 @@ Shader "Unlit/GpuSkinTestShader"
                 //第五步：传递 instanceid 顶点到片元
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
                 
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                float4 data = param[vid];
+                o.vertex = UnityObjectToClipPos(data);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }

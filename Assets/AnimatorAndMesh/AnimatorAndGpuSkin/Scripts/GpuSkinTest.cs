@@ -13,7 +13,9 @@ public class GpuSkinTest : MonoBehaviour
     private Matrix4x4[] _bindPoses;
     private List<Vector3> _srcPoints;
     private List<Vector3> _newPoints;
-    // Start is called before the first frame update
+
+    private Material mat;
+    
     void Awake()
     {
         _mesh = GetComponentInChildren<MeshFilter>().mesh;
@@ -21,6 +23,7 @@ public class GpuSkinTest : MonoBehaviour
         _mesh.GetVertices(_srcPoints);
         _bindPoses = _mesh.bindposes;
         _newPoints = new List<Vector3>(_srcPoints);
+        mat = GetComponent<MeshRenderer>().material;
         Play(animName);
     }
 
@@ -83,6 +86,12 @@ public class GpuSkinTest : MonoBehaviour
             _newPoints[i] = temp;
         }
 
-        _mesh.SetVertices(_newPoints);
+        var newList = new List<Vector4>();
+        for (int i = 0; i < _newPoints.Count; i++) {
+            newList.Add(_newPoints[i]);
+        }
+
+        mat.SetVectorArray("param", newList);
+        // _mesh.SetVertices(_newPoints);
     }
 }

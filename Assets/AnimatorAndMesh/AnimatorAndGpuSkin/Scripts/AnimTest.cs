@@ -16,7 +16,7 @@ public class AnimTest : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        _mesh = GetComponentInChildren<MeshFilter>().sharedMesh;
+        _mesh = GetComponentInChildren<MeshFilter>().mesh;
         _srcPoints = new List<Vector3>();
         _mesh.GetVertices(_srcPoints);
         _bindPoses = _mesh.bindposes;
@@ -46,8 +46,7 @@ public class AnimTest : MonoBehaviour
             ApplyFrame(0);
             return;
         }
-        _time += Time.deltaTime;
-        _time %= _animData.animLen;
+        _time = Time.realtimeSinceStartup % _animData.animLen;
         int f = (int)(_time / (1.0f / _animData.frame));
 
         if (f != _frame)
