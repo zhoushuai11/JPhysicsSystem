@@ -24,6 +24,7 @@ public class LimitMouse : MonoBehaviour {
     void Start() {
         defaultScreenX = Screen.width; // 获取当前屏幕长宽
         defaultScreenY = Screen.height;
+        DebugEx.LogError(SOWepEquipDataConfig.Get("AngledForegrip").SkinSign);
     }
 
     void Update() {

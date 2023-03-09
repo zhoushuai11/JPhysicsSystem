@@ -1,0 +1,105 @@
+﻿string	string	string	string[]	int[]	float	float	float	float	float	float	float	float	bool	bool	float	float	float	bool	int	int	float	int	float	int	float
+id	PI_Data	SkinSign	Bullet	BulletNum	ReloadRatio	ShootRangeRatio	RecoilRatio	MaxLeftRightRecoilRatio	CameraRatioLevel	minCameraRatioLevel	AimDownRatio	SoundRatio	ShowFireEffect	IsSilencerAudio	pressWeaponLength	FireDeployTimeUpRatio	BulletPowerUpRatio	IsModifyBombDamage	FireBulletNum	MaxDelayTimeBulletNum	BulletScaleRatio	CostBulletNum	BombScaleRatio	ZiziBulletDamage	ChargeCostOneBulletTime
+唯一标识	拾取的物品	加载的预制	子弹标识	子弹数量	换弹时间	扩散范围 (最远处距离的扩散范围 像素)	减少上升角度百分比	最大水平向左	镜头瞄准默认等级	可调节倍镜的最低等级	开镜倍率权重	声音大小 0 - 1	火花显示	开枪声音	收枪检测长度	射击间隔比例	子弹伤害百分比	子弹伤害百分比是否影响爆炸伤害	散弹子弹数量	射击间隔达到最小值需要的子弹数	子弹缩放比例	消耗子弹数量	爆炸范围缩放比例	滋滋芯片子弹伤害	蓄力消耗1发子弹时间
+AngledForegrip	AngledForegrip	AngledForegrip			0	0	0	0.3	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+LaserSight	LaserSight	LaserSight			0	0.15	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+VerticalForegrip	VerticalForegrip	VerticalForegrip			0	0	0.15	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+VerticalForegrip_Lv4	VerticalForegrip_Lv4	VerticalForegrip_Lv4			0	0	0.15	0.3	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+VerticalForegripTommyGun	VerticalForegrip	VerticalForegripTommyGun			0	0	0.15	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+VerticalForegripTommyGun_Lv4	VerticalForegrip_Lv4	VerticalForegripTommyGun_Lv4			0	0	0.15	0.3	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedMagTommyGun	ExtendedMagSubmachine	ExtendedMagTommyGun	TommyGun	50	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedMagAKM	ExtendedMagAssaultRifles	ExtendedMagAKM	AKM|Groza|Groza|QBZ|AK12|Tavor	40|40|40|40|40|45	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedMagAssaultRifles	ExtendedMagAssaultRifles	ExtendedMagAssaultRifles	SLR|M16A4|M416|SCARL|S12K|Mini14|SKS|VSS|AUG|MK14|MK14|AUG|Tavor	20|40|40|40|8|30|20|20|40|20|20|40|45	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedMagPistols	ExtendedMagPistols	ExtendedMagPistols	P18C|P92|P1911	25|20|12	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedMagSinperRifles	ExtendedMagSinperRifles	ExtendedMagSinperRifles	VSS|SKS|M24|AWM|Mini14|MK14|SLR|AWM|MK14	20|20|7|7|30|20|20|7|20	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedMagSubmachine	ExtendedMagSubmachine	ExtendedMagSubmachine	MicroUZI|UMP9|Vector	35|40|35	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagAKM	ExtendedQuickDrawMagAssaultRifles	ExtendedQuickDrawMagAKM	AKM|Groza|Groza|QBZ|AK12|Tavor	40|40|40|40|40|45	0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagAKM_Lv4	ExtendedQuickDrawMagAssaultRifles_Lv4	ExtendedQuickDrawMagAKM_Lv4	AKM|Groza|Groza|QBZ|AK12|Tavor	45|45|45|45|45|50	0.7	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagAssaultRifles	ExtendedQuickDrawMagAssaultRifles	ExtendedQuickDrawMagAssaultRifles	SLR|M16A4|M416|SCARL|S12K|Mini14|SKS|VSS|AUG|MK14|MK14|AUG|Tavor	20|40|40|40|8|30|20|20|40|20|20|40|45	0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagAssaultRifles_Lv4	ExtendedQuickDrawMagAssaultRifles_Lv4	ExtendedQuickDrawMagAssaultRifles_Lv4	SLR|M16A4|M416|SCARL|S12K|Mini14|SKS|VSS|AUG|MK14|MK14|AUG|Tavor	25|45|45|45|10|35|25|25|45|25|25|45|50	0.7	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagPistols	ExtendedQuickDrawMagPistols	ExtendedQuickDrawMagPistols	P18C|P92|P1911	25|20|12	0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagSinperRifles	ExtendedQuickDrawMagSinperRifles	ExtendedQuickDrawMagSinperRifles	VSS|SKS|M24|AWM|Mini14|MK14|SLR|AWM|MK14	20|20|7|7|30|20|20|7|20	0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagSinperRifles_Lv4	ExtendedQuickDrawMagSinperRifles_Lv4	ExtendedQuickDrawMagSinperRifles_Lv4	VSS|SKS|M24|AWM|Mini14|MK14|SLR|AWM|MK14	25|25|8|8|35|25|25|8|25	0.7	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagSubmachine	ExtendedQuickDrawMagSubmachine	ExtendedQuickDrawMagSubmachine	MicroUZI|UMP9|Vector	35|40|35	0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagSubmachine_Lv4	ExtendedQuickDrawMagSubmachine_Lv4	ExtendedQuickDrawMagSubmachine_Lv4	MicroUZI|UMP9|Vector	40|45|40	0.7	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagTommyGun	ExtendedQuickDrawMagSubmachine	ExtendedQuickDrawMagTommyGun	MicroUZI|UMP9|Vector|TommyGun	35|40|35|50	0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedQuickDrawMagTommyGun_Lv4	ExtendedQuickDrawMagSubmachine_Lv4	ExtendedQuickDrawMagTommyGun_Lv4	MicroUZI|UMP9|Vector|TommyGun	35|40|40|55	0.7	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickDrawMagAKM	QuickDrawMagAssaultRifles	QuickDrawMagAKM			0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickDrawMagAssaultRifles	QuickDrawMagAssaultRifles	QuickDrawMagAssaultRifles			0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickDrawMagPistols	QuickDrawMagPistols	QuickDrawMagPistols			0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickDrawMagSinperRifles	QuickDrawMagSinperRifles	QuickDrawMagSinperRifles			0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickDrawMagSubmachine	QuickDrawMagSubmachine	QuickDrawMagSubmachine			0.85	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+Choke	Choke	Choke			0	0.18	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+CompensatorAssaultRifles	CompensatorAssaultRifles	CompensatorAssaultRifles			0	0.25	0.15	0.1	0	0	0	1	1	0	0.1	0	0	0	0	0	0	0	0	0	0
+CompensatorSniperRifles	CompensatorSniperRifles	CompensatorSniperRifles			0	0.15	0.2	0.2	0	0	0	1	1	0	0.1	0	0	0	0	0	0	0	0	0	0
+CompensatorSubmachine	CompensatorSubmachine	CompensatorSubmachine			0	0.15	0.2	0.2	0	0	0	1	1	0	0.18	0	0	0	0	0	0	0	0	0	0
+FlashHiderAssaultRifles	FlashHiderAssaultRifles	FlashHiderAssaultRifles			0	0	0.1	0.1	0	0	0	1	0	0	0.15	0	0	0	0	0	0	0	0	0	0
+FlashHiderSniperRifles	FlashHiderSniperRifles	FlashHiderSniperRifles			0	0	0.1	0.1	0	0	0	1	0	0	0.2	0	0	0	0	0	0	0	0	0	0
+FlashHiderSubmachine	FlashHiderSubmachine	FlashHiderSubmachine			0	0	0.1	0.1	0	0	0	1	0	0	0.2	0	0	0	0	0	0	0	0	0	0
+SuppressorAssaultRifles	SuppressorAssaultRifles	SuppressorAssaultRifles			0	0.05	0	0	0	0	0	0.5	1	1	0.35	0	0	0	0	0	0	0	0	0	0
+SuppressorAssaultRifles_Lv4	SuppressorAssaultRifles_Lv4	SuppressorAssaultRifles_Lv4			0	0.25	0.15	0.1	0	0	0	0.5	1	1	0.35	0	0	0	0	0	0	0	0	0	0
+SuppressorPistols	SuppressorPistols	SuppressorPistols			0	0.05	0	0	0	0	0	0.5	1	1	0.28	0	0	0	0	0	0	0	0	0	0
+SuppressorSinperRifles	SuppressorSinperRifles	SuppressorSinperRifles			0	0.05	0	0	0	0	0	0.5	1	1	0.23	0	0	0	0	0	0	0	0	0	0
+SuppressorSinperRifles_Lv4	SuppressorSinperRifles_Lv4	SuppressorSinperRifles_Lv4			0	0.15	0.2	0.2	0	0	0	0.5	1	1	0.23	0	0	0	0	0	0	0	0	0	0
+SuppressorSubmachine	SuppressorSubmachine	SuppressorSubmachine			0	0.05	0	0	0	0	0	0.5	1	1	0.3	0	0	0	0	0	0	0	0	0	0
+SuppressorSubmachine_Lv4	SuppressorSubmachine_Lv4	SuppressorSubmachine_Lv4			0	0.15	0.2	0.2	0	0	0	0.5	1	1	0.3	0	0	0	0	0	0	0	0	0	0
+BulletLoops98k	BulletLoops98k	BulletLoops98k			0.8	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+BulletLoopsS1897S686	BulletLoopsS1897S686	BulletLoopsS1897S686			0.8	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+CheekPad	CheekPad	CheekPad			0	0	0.2	0.2	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+CheekPad_Lv4	CheekPad_Lv4	CheekPad_Lv4			0	0	0.25	0.25	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+StockMicroUZI	StockMicroUZI	StockMicroUZI			0	0	0.2	0.2	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+TactialStock	TactialStock	TactialStock			0	0	0.2	0.2	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+2x	2x	2x			0	0	0	0	2	2	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+3x	3x	3x			0	0	0	0	3	3	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+4x	4x	4x			0	0	0	0	4	4	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+4x_762Assualt	4x	4x_762Assualt			0	0	0	0	4	4	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+4x_Sniper	4x	4x_Sniper			0	0	0	0	4	4	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+6x	6x	6x			0	0	0	0	6	3	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+8x	8x	8x			0	0	0	0	8	4	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+15x	15x	15x			0	0	0	0	15	6	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+HD	HD	HD			0	0	0	0	1.5	1.5	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QX	QX	QX			0	0	0	0	1.5	1.5	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+CapacityChip	CapacityChip	CapacityChip	FocusGun|RailGun|ParticleCannon|EnergySmg	60|20|24|60	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+PreciseChip	PreciseChip	PreciseChip			0	0.25	0	0	0	0	0	1	1	0	0.1	0	0	0	0	0	0	0	0	0	0
+CapacityChipZiZiBen	CapacityChip	CapacityChipZiZiBen	ZiZiBeng|HandCannon	7|30	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+PreciseChipZiZiBeng	PreciseChip	PreciseChipZiZiBeng			0	0.25	0	0	0	0	0	1	1	0	0.1	0	0	0	0	0	0	0	0	0	0
+CapacityChipHandCannon	CapacityChip	CapacityChipHandCannon	HandCannon	30	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+PreciseChipHandCannon	PreciseChip	PreciseChipHandCannon			0	0.25	0	0	0	0	0	1	1	0	0.1	0	0	0	0	0	0	0	0	0	0
+DamageBoostChipZZB	DamageBoostChip	DamageBoostChipZZB			0	0	0	0	0	0	0	1	1	0	0	0	1.2	0	0	0	0	0	0	0	0
+DamageBoostChipParticleCannon	DamageBoostChip	DamageBoostChipParticleCannon			0	0	0	0	0	0	0	1	1	0	0	0	1.2	1	0	0	0	0	0	0	0
+DamageBoostChipHandCannon	DamageBoostChip	DamageBoostChipHandCannon			0	0	0	0	0	0	0	1	1	0	0	0	1.06	0	0	0	0	0	0	0	0
+DamageBoostChipFocusGun	DamageBoostChip	DamageBoostChipFocusGun			0	0	0	0	0	0	0	1	1	0	0	0	1.089	0	0	0	0	0	0	0	0
+DamageBoostChipRailGun	DamageBoostChip	DamageBoostChipRailGun			0	0	0	0	0	0	0	1	1	0	0	0	1.125	0	0	0	0	0	0	0	0
+DamageBoostChipEnergySmg	DamageBoostChip	DamageBoostChipEnergySmg			0	0	0	0	0	0	0	1	1	0	0	0	1.08	0	0	0	0	0	0	0	0
+DamageBoostChipEnergyRifle	DamageBoostChip	DamageBoostChipEnergyRifle			0	0	0	0	0	0	0	1	1	0	0	0	1.08	0	0	0	0	0	0	0	0
+RpmBoostChipZZB	RpmBoostChip	RpmBoostChipZZB			0	0	0	0	0	0	0	1	1	0	0	0.8	0	0	0	0	0	0	0	0	0
+RpmBoostChipParticleCannon	RpmBoostChip	RpmBoostChipParticleCannon			0	0	0	0	0	0	0	1	1	0	0	0.8	0	1	0	0	0	0	0	0	0
+RpmBoostChipHandCannon	RpmBoostChip	RpmBoostChipHandCannon			0	0	0	0	0	0	0	1	1	0	0	0.75	0	0	0	0	0	0	0	0	0
+RpmBoostChipFocusGun	RpmBoostChip	RpmBoostChipFocusGun			0	0	0	0	0	0	0	1	1	0	0	0.75	0	0	0	0	0	0	0	0	0
+RpmBoostChipRailGun	RpmBoostChip	RpmBoostChipRailGun			0	0	0	0	0	0	0	1	1	0	0	0.75	0	0	0	0	0	0	0	0	0
+RpmBoostChipEnergySmg	RpmBoostChip	RpmBoostChipEnergySmg			0	0	0	0	0	0	0	1	1	0	0	0.86	0	0	0	0	0	0	0	0	0
+RpmBoostChipEnergyRifle	RpmBoostChip	RpmBoostChipEnergyRifle			0	0	0	0	0	0	0	1	1	0	0	0.91	0	0	0	0	0	0	0	0	0
+ExtendedChipFocusGun	ExtendedChip	ExtendedChip	FocusGun	60	1	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedChipRailGun	ExtendedChip	ExtendedChip	RailGun	20	1	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedChipParticleCannon	ExtendedChip	ExtendedChip	ParticleCannon	24	1	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedChipEnergySmg	ExtendedChip	ExtendedChip	EnergySmg	60	1	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedChipZiZiBeng	ExtendedChip	ExtendedChip	ZiZiBeng	7	1	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedChipHandCannon	ExtendedChip	ExtendedChip	HandCannon	30	1	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedChipVictoryPistol	ExtendedChip	ExtendedChip	VictoryPistol	25	1	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+ExtendedChipEnergyRifle	ExtendedChip	ExtendedChip	EnergyRifle	40	1	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickChipFocusGun	QuickChip	QuickChip	FocusGun	50	0.65	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickChipRailGun	QuickChip	QuickChip	RailGun	10	0.65	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickChipParticleCannon	QuickChip	QuickChip	ParticleCannon	16	0.65	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickChipEnergySmg	QuickChip	QuickChip	EnergySmg	50	0.65	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickChipZiZiBeng	QuickChip	QuickChip	ZiZiBeng	5	0.65	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickChipHandCannon	QuickChip	QuickChip	HandCannon	20	0.65	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickChipVictoryPistol	QuickChip	QuickChip	VictoryPistol	15	0.65	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+QuickChipEnergyRifle	QuickChip	QuickChip	EnergyRifle	30	0.65	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+VerticalChip	VerticalChip	VerticalChip			0	0	0.15	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+HorizontalChip	HorizontalChip	HorizontalChip			0	0	0	0.3	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+LaserChip	LaserChip	LaserChip			0	0.15	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0
+TurboChip	TurboChip	TurboChip			0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	1	0	0	0	0	0
+ZiziChip	ZiziChip	ZiziChip			0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	7	0
+BoomerChip	BoomerChip	BoomerChip			0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	2	2	2	0	0
+BoomerChipEnergyRifle	BoomerChip	BoomerChip			0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	4	0	0	0	0
+ChargeChip	ChargeChip	ChargeChip			0	0	0	0	0	0	0	1	1	0	0	0	1.55	0	0	0	0	0	0	0	0.2
