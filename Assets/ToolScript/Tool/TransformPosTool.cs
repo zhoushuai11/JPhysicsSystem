@@ -11,21 +11,21 @@ public static class TransformPosTool {
         // 旋转矩阵
         var eulerAngles = parent.eulerAngles;
         var rotZ = CustomMatrix4X4(
-            new Vector4(Mathf.Cos(eulerAngles.z * Mathf.PI / 180), -Mathf.Sin(eulerAngles.z * Mathf.PI / 180), 0, 0),
-            new Vector4(Mathf.Sin(eulerAngles.z * Mathf.PI / 180), Mathf.Cos(eulerAngles.z * Mathf.PI / 180), 0, 0),
+            new Vector4(Mathf.Cos(eulerAngles.z * Mathf.Deg2Rad), -Mathf.Sin(eulerAngles.z * Mathf.Deg2Rad), 0, 0),
+            new Vector4(Mathf.Sin(eulerAngles.z * Mathf.Deg2Rad), Mathf.Cos(eulerAngles.z * Mathf.Deg2Rad), 0, 0),
             new Vector4(0, 0, 1, 0),
             new Vector4(0, 0, 0, 1));
  
         var rotX = CustomMatrix4X4(
             new Vector4(1, 0, 0, 0),
-            new Vector4(0, Mathf.Cos(eulerAngles.x * Mathf.PI / 180), -Mathf.Sin(eulerAngles.x * Mathf.PI / 180), 0),
-            new Vector4(0, Mathf.Sin(eulerAngles.x * Mathf.PI / 180), Mathf.Cos(eulerAngles.x * Mathf.PI / 180), 0),
+            new Vector4(0, Mathf.Cos(eulerAngles.x * Mathf.Deg2Rad), -Mathf.Sin(eulerAngles.x * Mathf.Deg2Rad), 0),
+            new Vector4(0, Mathf.Sin(eulerAngles.x * Mathf.Deg2Rad), Mathf.Cos(eulerAngles.x * Mathf.Deg2Rad), 0),
             new Vector4(0, 0, 0, 1));
  
         var rotY = CustomMatrix4X4(
-                new Vector4(Mathf.Cos(eulerAngles.y * Mathf.PI / 180), 0, Mathf.Sin(eulerAngles.y * Mathf.PI / 180), 0),
+                new Vector4(Mathf.Cos(eulerAngles.y * Mathf.Deg2Rad), 0, Mathf.Sin(eulerAngles.y * Mathf.Deg2Rad), 0),
                 new Vector4(0, 1, 0, 0),
-                new Vector4(-Mathf.Sin(eulerAngles.y * Mathf.PI / 180), 0, Mathf.Cos(eulerAngles.y * Mathf.PI / 180), 0),
+                new Vector4(-Mathf.Sin(eulerAngles.y * Mathf.Deg2Rad), 0, Mathf.Cos(eulerAngles.y * Mathf.Deg2Rad), 0),
                 new Vector4(0, 0, 0, 1));
         // 位移矩阵
         var moveMatrix = CustomMatrix4X4(
@@ -35,12 +35,12 @@ public static class TransformPosTool {
             new Vector4(0,0,0, 1));
         
         // 获取变换矩阵
-        var mLocalToWorld = (CustomMatrix4X4(
+        var mLocalToWorld = CustomMatrix4X4(
                 new Vector4(1, 0, 0, 0),
                 new Vector4(0, 1, 0, 0),
                 new Vector4(0, 0, 1, 0),
                 new Vector4(0, 0, 0, 1)
-            )) * moveMatrix * rotY * rotX * rotZ * scaleMatrix;
+            ) * moveMatrix * rotY * rotX * rotZ * scaleMatrix;
         
         PrintMatrix(mLocalToWorld);
         PrintMatrix(parent.localToWorldMatrix);
@@ -68,21 +68,21 @@ public static class TransformPosTool {
         // 旋转矩阵，注意要加负号
         var eulerAngles = -local.eulerAngles;
         var rotZ = CustomMatrix4X4(
-            new Vector4(Mathf.Cos(eulerAngles.z * Mathf.PI / 180), -Mathf.Sin(eulerAngles.z * Mathf.PI / 180), 0, 0),
-            new Vector4(Mathf.Sin(eulerAngles.z * Mathf.PI / 180), Mathf.Cos(eulerAngles.z * Mathf.PI / 180), 0, 0),
+            new Vector4(Mathf.Cos(eulerAngles.z * Mathf.Deg2Rad), -Mathf.Sin(eulerAngles.z * Mathf.Deg2Rad), 0, 0),
+            new Vector4(Mathf.Sin(eulerAngles.z * Mathf.Deg2Rad), Mathf.Cos(eulerAngles.z * Mathf.Deg2Rad), 0, 0),
             new Vector4(0, 0, 1, 0),
             new Vector4(0, 0, 0, 1));
  
         var rotX = CustomMatrix4X4(
             new Vector4(1, 0, 0, 0),
-            new Vector4(0, Mathf.Cos(eulerAngles.x * Mathf.PI / 180), -Mathf.Sin(eulerAngles.x * Mathf.PI / 180), 0),
-            new Vector4(0, Mathf.Sin(eulerAngles.x * Mathf.PI / 180), Mathf.Cos(eulerAngles.x * Mathf.PI / 180), 0),
+            new Vector4(0, Mathf.Cos(eulerAngles.x * Mathf.Deg2Rad), -Mathf.Sin(eulerAngles.x * Mathf.Deg2Rad), 0),
+            new Vector4(0, Mathf.Sin(eulerAngles.x * Mathf.Deg2Rad), Mathf.Cos(eulerAngles.x * Mathf.Deg2Rad), 0),
             new Vector4(0, 0, 0, 1));
  
         var rotY = CustomMatrix4X4(
-                new Vector4(Mathf.Cos(eulerAngles.y * Mathf.PI / 180), 0, Mathf.Sin(eulerAngles.y * Mathf.PI / 180), 0),
+                new Vector4(Mathf.Cos(eulerAngles.y * Mathf.Deg2Rad), 0, Mathf.Sin(eulerAngles.y * Mathf.Deg2Rad), 0),
                 new Vector4(0, 1, 0, 0),
-                new Vector4(-Mathf.Sin(eulerAngles.y * Mathf.PI / 180), 0, Mathf.Cos(eulerAngles.y * Mathf.PI / 180), 0),
+                new Vector4(-Mathf.Sin(eulerAngles.y * Mathf.Deg2Rad), 0, Mathf.Cos(eulerAngles.y * Mathf.Deg2Rad), 0),
                 new Vector4(0, 0, 0, 1));
         
         // 获取变换矩阵
