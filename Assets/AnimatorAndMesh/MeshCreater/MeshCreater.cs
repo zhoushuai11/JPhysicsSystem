@@ -4,68 +4,81 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MeshCreater : MonoBehaviour {
+    public Material setMat;
+    
     private void Start() {
         var meshFilter = gameObject.AddComponent<MeshFilter>();
         var meshRender = gameObject.AddComponent<MeshRenderer>();
-        var mesh = new Mesh();
-        mesh.name = "FFFFFF";
-        var vertices = new Vector3[] {
-            new Vector3(1, 1, 0),
-            new Vector3(-1, 1, 0),
-            new Vector3(1, -1, 0),
-            new Vector3(-1, -1, 0),
-        };
-        var triangles = new int[2 * 3] {
-            0, 2, 1, 1, 2, 3
-            // 0, 3, 1, 0, 2, 3
-        };
-        // var triangles2 = new int[2 * 3] {
-        //     0, 1, 3, 0, 3, 2
-        // };
-
-        mesh.vertices = vertices;
-        // mesh.triangles = triangles;
-        mesh.subMeshCount = 1;
-        mesh.SetTriangles(triangles, 0);
-        // mesh.SetTriangles(triangles2, 1);
-        for (var i = 0; i < vertices.Length; i++) {
-            var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            cube.transform.position = vertices[i];
-            cube.transform.localScale = Vector3.one * 0.2f;
-            cube.name = i.ToString();
-        }
         
+        var height = 1;
+        var width = 1;
+        var size = 10;
 
-        meshFilter.sharedMesh = mesh;
-        meshRender.materials = new Material[] {
-            new Material(Shader.Find("Standard")), new Material(Shader.Find("Standard"))
-        };
+        var offsetCol = 1;
+        var offsetValue = 10;
+        
+        var vertexCount = height * width;
+        var mesh = new Mesh();
+        
+        var vertices = new Vector3[4 * vertexCount];
+        var uvs = new Vector2[4 * vertexCount];
+        var normals = new Vector3[4 * vertexCount];
+        var tangents = new Vector4[4 * vertexCount];
+        var triangles = new int[6 * vertexCount];
 
-        var point = new Vector4(2, 2, 2, 1);
-        var moveMatrix = Matrix4x4.identity;
-        moveMatrix.m03 = -1;
-        moveMatrix.m13 = 0;
-        moveMatrix.m23 = 0;
-        DebugEx.LogError(moveMatrix * point);
+        var uvRowRatio = 1.0f / width;
+        var uvColRatio = 1.0f / height;
+        for (var i = 0; i < width; i++) {
+            for (var j = 0; j < height; j++) {
+                var index = i * height + j;
+                var offset = 0.0f;
+                if (j == offsetCol) {
+                    offset = offsetValue;
+                }
+        
+                vertices[index * 4 + 0] = new Vector3(size * i, size * j + offset);
+                vertices[index * 4 + 1] = new Vector3(size * i, size * (j + 1) + offset);
+                vertices[index * 4 + 2] = new Vector3(size * (i + 1), size * (j + 1) + offset);
+                vertices[index * 4 + 3] = new Vector3(size * (i + 1), size * j + offset);
 
-        var list = new List<int> {
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7
-        };
-        for (var i = 0; i < list.Count; i++) {
-            DebugEx.LogError(i);
-            if (i > 5) {
-                break;
+                var uvX = uvRowRatio * i;
+                var uvNextX = uvRowRatio * (i + 1);
+                var uvY = uvColRatio * j;
+                var uvNextY = uvColRatio * (j + 1);
+                uvs[index * 4 + 0] = new Vector2(uvX, uvY);
+                uvs[index * 4 + 1] = new Vector2(uvX, uvNextY);
+                uvs[index * 4 + 2] = new Vector2(uvNextX, uvNextY);
+                uvs[index * 4 + 3] = new Vector2(uvNextX, uvY);
+        
+                normals[index * 4 + 0] = Vector3.back;
+                normals[index * 4 + 1] = Vector3.back;
+                normals[index * 4 + 2] = Vector3.back;
+                normals[index * 4 + 3] = Vector3.back;
+                
+                tangents[index * 4 + 0] = new Vector4(1, 0, 0, -1);
+                tangents[index * 4 + 1] = new Vector4(1, 0, 0, -1);
+                tangents[index * 4 + 2] = new Vector4(1, 0, 0, -1);
+                tangents[index * 4 + 3] = new Vector4(1, 0, 0, -1);
+        
+                triangles[index * 6 + 0] = index * 4 + 0;
+                triangles[index * 6 + 1] = index * 4 + 1;
+                triangles[index * 6 + 2] = index * 4 + 2;
+                
+                triangles[index * 6 + 3] = index * 4 + 0;
+                triangles[index * 6 + 4] = index * 4 + 2;
+                triangles[index * 6 + 5] = index * 4 + 3;
             }
         }
-    }
-
-    private void OnTriggerEnter(Collider other) {
-        DebugEx.Log(other.name);
+        
+        mesh.vertices = vertices;
+        mesh.uv = uvs;
+        mesh.normals = normals;
+        mesh.triangles = triangles;
+        mesh.tangents = tangents;
+        
+        meshFilter.sharedMesh = mesh;
+        meshRender.materials = new Material[] {
+            setMat,
+        };
     }
 }
