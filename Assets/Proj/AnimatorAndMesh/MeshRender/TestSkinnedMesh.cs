@@ -4,34 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TestSkinnedMesh : MonoBehaviour {
-    // Start is called before the first frame update
-    
-    private struct DoublePoseStaticData {
-        public long pid;
-        public long toPid;
-        public int relationType;
-        public bool isInitiate;
-        public bool isAgree;
-        public int fallReason; // 0:主动拒绝 1:超时 2：不符合条件 3:超出距离 -1:成功
-        public bool isSuccessShow;
-    }
-
-    void Start() {
-        var list = new List<DoublePoseStaticData>();
-        list.Add(new DoublePoseStaticData {
-            pid = 1,
-            toPid = 2,
-            relationType = 3
-        });
-        list.Add(new DoublePoseStaticData {
-            pid = 1,
-            toPid = 2,
-            relationType = 3
-        });
-        DebugEx.LogError(list.FindLastIndex(data => data is { pid: 1, toPid: 2 }));
-    }
-
-   
     private GameObject gameObject;
 
     private void CreateSkinnedMesh() {
