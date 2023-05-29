@@ -8,6 +8,6 @@ public class DoAction : Action {
 
     public override TaskStatus OnUpdate() {
         Debug.Log($"name:DoAction!!! {logInfo}");
-        return TaskStatus.Running;
+        return TaskStatus.Success;
     }
 }

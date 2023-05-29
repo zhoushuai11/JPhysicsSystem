@@ -81,4 +81,8 @@ public class MeshCreater : MonoBehaviour {
             setMat,
         };
     }
+
+    private void Update() {
+        DebugEx.LogError("111");
+    }
 }

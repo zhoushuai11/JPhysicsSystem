@@ -16,7 +16,7 @@ public class CheckDistance : Conditional {
         if (dis > checkDistance) {
             return TaskStatus.Success;
         }
-
+            
         return TaskStatus.Failure;
     }
 }
